@@ -10,3 +10,6 @@ Campaign: built-in image_gen tool, saved in dist/assets/campaign.png. Prompt: Ph
 
 ## Brand world pages
 campaign.html (After hours), packaging.html (Unbox your mood), world.html (concept store). User-supplied event/store/packaging visuals are web-encoded as JPEGs. Incorrect logo usage reference images are not displayed as campaign assets. Shared SVG logo keeps original proportions. All pages link to the existing store and bag.
+
+## November 2026 campaign replacement
+The home Lookbook and About styling photograph now use assets/campaign-sagging-wide.png, generated with the built-in image_gen tool from the actual Bipolar Type D and ADHD Type D product references. Prompt: Extend the referenced adult-model SPANKY photograph into a wide 3:2 studio campaign, preserve the adult models, black/white tshirts, low-rise denim, readable purple/lime spanky waistbands and matching wave/branching prints; expand the violet backdrop and concrete floor, keep heads and shoes visible, natural daylight and fully clothed styling, no text overlay. This is an AI fashion mockup, not product photography.
