@@ -1,11 +1,16 @@
 const navigation = [
-  ['index.html#shop', 'Shop', 'shop'],
-  ['index.html#lookbook', 'Lookbook', 'lookbook'],
-  ['world.html', 'Explore', 'world'],
-  ['about.html', 'About', 'about'],
+  ["index.html#shop", "Shop", "shop"],
+  ["index.html#lookbook", "Lookbook", "lookbook"],
+  ["world.html", "Explore", "world"],
+  ["about.html", "About", "about"],
 ];
 export function renderLayout({ page, title, description, dark, content }) {
-  const links = navigation.map(([url, label, key]) => `<a href="${url}" ${page === key ? 'aria-current="page"' : ''}>${label}</a>`).join('');
+  const links = navigation
+    .map(
+      ([url, label, key]) =>
+        `<a href="${url}" ${page === key ? 'aria-current="page"' : ""}>${label}</a>`,
+    )
+    .join("");
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -16,7 +21,7 @@ export function renderLayout({ page, title, description, dark, content }) {
 <link rel="preload" href="assets/fonts/cinea-700.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="styles/main.css"><script type="module" src="scripts/site.js"></script><script type="module" src="scripts/storefront.js"></script>
 </head>
-<body class="${dark ? 'world-page' : 'store-page'}">
+<body class="${dark ? "world-page" : "store-page"}">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="announce">COLLECTION 01 / TYPE D <span>Seven concepts. All-over expression.</span></div>
 <header class="site-header">

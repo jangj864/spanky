@@ -1,15 +1,62 @@
-# SPANKY Collection 01
+# SPANKY
 
-Brand identity store prototype based on Jinhyeok Jang's supplied PDF. 28 product mockups, four graphic scales, seven concepts, size selection, persistent cart, quantity changes, checkout validation and demo order confirmation. Static HTML/CSS/JS; serve dist/.
+English-only brand storefront for Jinhyeok Jang's SPANKY design studio project. Seven **Type D / all-over** boxer briefs. The collection names, colors, artwork and philosophy follow the supplied brand identity PDF.
 
-Prices, size guide, shipping and order flow are illustrative. No payment processing, order backend, customer data storage, transactional email, inventory or fulfilment is connected. Contact and address fields are discarded after the demo flow. Only cart product IDs, sizes and quantities are stored locally.
+Live: https://jangj864.github.io/spanky/
 
-## Assets
-Logo: user-supplied SVG, preserved as dist/assets/logo.svg. Product images: Web-optimized WebP images derived from the 28 original PNGs supplied in SPANKY_Underwear_28_PNG, mapped by concept code and type A–D; transparency preserved. SPANKY_Collection_Assets.zip could not be read (missing ZIP central directory); PDF mockups were used instead.
-Campaign: built-in image_gen tool, saved in dist/assets/campaign.png. Prompt: Photorealistic editorial streetwear campaign, two adult male models age 30, one East Asian and one Black, relaxed standing poses in a concrete studio with violet backdrop and daylight. Both fully dressed in oversized white tshirts, baggy denim jeans, sneakers. One wears an open lilac shirt layered over the tshirt. Small purple elastic 'spanky' waistband peeks naturally just above jeans, a subtle detail only. Wide 3:2 photograph, analog film texture, elevated independent clothing brand, full body, nonsexual ordinary fashion photograph. No headline overlay.
+## Develop
 
-## Brand world pages
-campaign.html (After hours), packaging.html (Unbox your mood), world.html (concept store). User-supplied event/store/packaging visuals are web-encoded as JPEGs. Incorrect logo usage reference images are not displayed as campaign assets. Shared SVG logo keeps original proportions. All pages link to the existing store and bag.
+Requires Node.js 22+ and npm. No runtime framework or client dependencies.
 
-## November 2026 campaign replacement
-The home Lookbook and About styling photograph now use assets/campaign-sagging-wide.png, generated with the built-in image_gen tool from the actual Bipolar Type D and ADHD Type D product references. Prompt: Extend the referenced adult-model SPANKY photograph into a wide 3:2 studio campaign, preserve the adult models, black/white tshirts, low-rise denim, readable purple/lime spanky waistbands and matching wave/branching prints; expand the violet backdrop and concrete floor, keep heads and shoes visible, natural daylight and fully clothed styling, no text overlay. This is an AI fashion mockup, not product photography.
+```sh
+npm ci
+npm run dev
+```
+
+Open http://127.0.0.1:4173. After editing source, run `npm run build` and refresh. `npm run dev` builds once and starts a local static server; it does not watch files.
+
+```sh
+npm run check   # build + cart/catalogue tests + generated-page/link validation
+npm run format  # format source, scripts and tests
+npx playwright install chromium
+npm run test:e2e # browser regression suite
+```
+
+## Where to make changes
+
+| Task                                                         | File                        |
+| ------------------------------------------------------------ | --------------------------- |
+| Collection names, descriptions, prices, colors, search terms | `src/scripts/catalog.js`    |
+| Shared navigation, footer, dialog shells and SEO tags        | `src/layout.mjs`            |
+| Page titles and descriptions                                 | `src/pages.json`            |
+| Page-specific editorial content                              | `src/pages/*.html`          |
+| Brand palette, typography and responsive component styles    | `src/styles/main.css`       |
+| Cart persistence, validation and quantity limits             | `src/scripts/cart.js`       |
+| Product, search, cart and demo checkout interactions         | `src/scripts/storefront.js` |
+| Mobile navigation                                            | `src/scripts/site.js`       |
+| Original website assets and fonts                            | `public/assets/`            |
+
+`dist/` is generated, ignored by Git and overwritten on each build. **Do not edit dist directly.** The build copies `public/` and source scripts/styles, then renders all pages through the shared layout. About collection cards also come from the catalogue, so names and artwork cannot drift from the store.
+
+## Deploy
+
+Push to `main`. `.github/workflows/deploy-pages.yml` installs pinned development dependencies, builds, runs checks, and publishes `dist/` to GitHub Pages. Catalogue/cart unit tests, page checks and browser regression tests must pass before deployment. Pages must use **GitHub Actions** as its source. All URLs are relative to support the `/spanky/` subdirectory.
+
+## Store behavior
+
+- Seven Type D designs; A–C products and their public asset copies have been removed.
+- Stable numeric product IDs preserve existing Type D carts; stored A–C entries are discarded.
+- Cart storage contains only product ID, size and quantity. Invalid data is dropped, duplicates merge, and each design/size is limited to 10.
+- Blocked or corrupt local storage does not prevent the current shopping session. Open tabs synchronize cart updates.
+- The bag, size guide and shipping information work on every page.
+- Native dialogs support Escape and focus return. Mobile navigation exposes its open state. Reduced-motion preferences are respected.
+
+## Demo boundary
+
+Prices, sizing and shipping are illustrative. Checkout is a **demo**, with no payment, order backend, transactional email, inventory or fulfilment. Use sample delivery details: they are not saved or transmitted. Real retail release requires those services and finalized policies.
+
+## Brand assets and licensing
+
+The SVG wordmark is the supplied master, independent of the display typeface. Product WebPs derive from the user's 28 supplied PNGs; the current storefront serves Type D only. Event, packaging and retail-space images are concept mockups. The wide model image `campaign-sagging-wide.png` was generated with built-in image_gen from SPANKY's purple wave and lime branching product references. It is explicitly labeled as an AI campaign visual.
+
+TBJ Cinea Sans files supplied by the user are Demo/Trial, used for this noncommercial studio concept; verify the appropriate web/commercial license before retail use. The included notice is in `public/assets/fonts/Befonts-License.txt`. Pretendard is loaded from its version-pinned official distribution under the SIL Open Font License.
