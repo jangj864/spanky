@@ -60,7 +60,10 @@ export const products = concepts.map((concept, index) => ({
 }));
 export const getProduct = (id) =>
   products.find((product) => product.id === Number(id));
-export const asset = (product) => `assets/product-${product.c}-3.webp`;
+export const asset = (product, view = "front") =>
+  view === "back"
+    ? `assets/product-${product.c}-back.png`
+    : `assets/product-${product.c}-3.webp`;
 export const money = (value) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",

@@ -2374,3 +2374,79 @@ dialog .close {
     animation: none !important;
   }
 }
+/* Product gallery: preserve the complete artwork and keyboard-operable view controls. */
+.product-gallery {
+  min-width: 0;
+}
+.gallery-main.detail-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  aspect-ratio: 3/2;
+  min-height: 0;
+  cursor: pointer;
+  background: #e9e7df;
+}
+.gallery-main.detail-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+}
+.gallery-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+.gallery-controls button {
+  border: 1px solid #b9b5c0;
+  background: transparent;
+  padding: 6px 8px 9px;
+  min-width: 84px;
+  max-width: 100px;
+  flex: 1;
+  font-size: 11px;
+  color: var(--ink);
+}
+.gallery-controls button[aria-pressed="true"] {
+  border: 2px solid var(--purple);
+  padding: 5px 7px 8px;
+  background: #e9e3f2;
+}
+.gallery-controls img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/2;
+  object-fit: contain;
+}
+.gallery-controls span {
+  display: block;
+  margin-top: 6px;
+}
+.gallery-hint {
+  font-size: 10px !important;
+  color: #716b7b;
+  text-align: left;
+  margin: 12px 0 0 !important;
+}
+@media (max-width: 800px) {
+  .gallery-main.detail-image {
+    max-height: none;
+  }
+  .gallery-main.detail-image img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+  .gallery-controls {
+    margin-top: 10px;
+  }
+  .gallery-controls button {
+    max-width: 85px;
+  }
+}

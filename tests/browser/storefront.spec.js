@@ -95,3 +95,42 @@ test("obsolete A–C products and malformed saved rows cannot enter the bag", as
   await expect(page.locator(".cart-row")).toHaveCount(1);
   await expect(page.locator(".cart-row")).toContainText("Bipolar");
 });
+
+test("every product has a matching clickable back view that preserves size selection", async ({
+  page,
+}) => {
+  await page.goto("/");
+  for (const id of [3, 7, 11, 15, 19, 23, 27]) {
+    await page.locator(`[data-product="${id}"]`).first().click();
+    await expect(page.locator("#detailPhoto")).toHaveAttribute(
+      "src",
+      `assets/product-${(id - 3) / 4}-3.webp`,
+    );
+    await page.getByRole("button", { name: "Back", exact: true }).click();
+    await expect(page.locator("#detailPhoto")).toHaveAttribute(
+      "src",
+      `assets/product-${(id - 3) / 4}-back.png`,
+    );
+    await expect(
+      page.getByRole("button", { name: "Back", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await page.locator("#detailPhoto").evaluate((image) => image.decode());
+    await page.locator('[data-size="L"]').click();
+    await expect(page.locator("#detailPhoto")).toHaveAttribute(
+      "alt",
+      /back view/,
+    );
+    await expect(page.locator('[data-size="L"]')).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await page
+      .getByRole("button", { name: "Show front view", exact: true })
+      .click();
+    await expect(page.locator("#detailPhoto")).toHaveAttribute(
+      "alt",
+      /front view/,
+    );
+    await page.keyboard.press("Escape");
+  }
+});

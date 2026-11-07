@@ -18,6 +18,7 @@ let sort = "featured",
   query = "",
   selected = null,
   chosenSize = "M",
+  chosenView = "front",
   toastTimer;
 const openers = new WeakMap();
 function openDialog(dialog) {
@@ -51,15 +52,37 @@ function render() {
 function detail(id, reset = true) {
   selected = getProduct(id);
   if (!selected) return;
-  if (reset) chosenSize = "M";
+  if (reset) {
+    chosenSize = "M";
+    chosenView = "front";
+  }
   const p = selected,
     c = concepts[p.c];
   $("#productDetail").innerHTML =
-    `<div class="detail"><div class="detail-image"><img src="${asset(p)}" alt="${p.name} product concept"></div><div><div class="eyebrow">COLLECTION 01 / ${c.motif.toUpperCase()}</div><h2>${p.name}</h2><b>${money(p.price)}</b><p>${c.description}<br>An artistic interpretation of the ${c.name} collection concept, not a universal description of a diagnosis.</p><div class="label">GRAPHIC / ALL-OVER</div><div class="label">SIZE <button data-guide class="guide-link">Size guide ↗</button></div><div class="choices">${sizes.map((s) => `<button data-size="${s}" aria-pressed="${s === chosenSize}" class="${s === chosenSize ? "selected" : ""}">${s}</button>`).join("")}</div><button class="button green full" id="add">Add to bag <span>+</span></button><p>Design concept. Prices and sizes are illustrative.<br>Final pattern placement and production specifications may vary.</p></div></div>`;
+    `<div class="detail"><div class="product-gallery"><button class="gallery-main detail-image" data-gallery-toggle aria-label="Show ${chosenView === "front" ? "back" : "front"} view"><img id="detailPhoto" src="${asset(p, chosenView)}" alt="${p.name} — ${chosenView} view" width="1536" height="1024"></button><div class="gallery-controls" role="group" aria-label="Product view">${["front", "back"].map((view) => `<button data-view="${view}" aria-pressed="${chosenView === view}"><img src="${asset(p, view)}" alt="" width="1536" height="1024"><span>${view === "front" ? "Front" : "Back"}</span></button>`).join("")}</div><p class="gallery-hint">Click the image or choose a view.</p></div><div><div class="eyebrow">COLLECTION 01 / ${c.motif.toUpperCase()}</div><h2>${p.name}</h2><b>${money(p.price)}</b><p>${c.description}<br>An artistic interpretation of the ${c.name} collection concept, not a universal description of a diagnosis.</p><div class="label">GRAPHIC / ALL-OVER</div><div class="label">SIZE <button data-guide class="guide-link">Size guide ↗</button></div><div class="choices">${sizes.map((s) => `<button data-size="${s}" aria-pressed="${s === chosenSize}" class="${s === chosenSize ? "selected" : ""}">${s}</button>`).join("")}</div><button class="button green full" id="add">Add to bag <span>+</span></button><p>Design concept. Prices and sizes are illustrative.<br>Final pattern placement and production specifications may vary.</p></div></div>`;
   if (pd.open && !reset)
     document.querySelector(`[data-size="${chosenSize}"]`)?.focus();
   openDialog(pd);
 }
+function setProductView(view) {
+  if (!selected || !["front", "back"].includes(view)) return;
+  chosenView = view;
+  const photo = $("#detailPhoto");
+  photo.src = asset(selected, view);
+  photo.alt = `${selected.name} — ${view} view`;
+  document
+    .querySelector("[data-gallery-toggle]")
+    .setAttribute(
+      "aria-label",
+      `Show ${view === "front" ? "back" : "front"} view`,
+    );
+  document
+    .querySelectorAll("[data-view]")
+    .forEach((button) =>
+      button.setAttribute("aria-pressed", String(button.dataset.view === view)),
+    );
+}
+
 function toast(msg) {
   $("#toast").textContent = msg;
   $("#toast").classList.add("visible");
@@ -119,6 +142,14 @@ document.addEventListener("click", (event) => {
   }
   if (button.dataset.product !== undefined) {
     detail(Number(button.dataset.product));
+    return;
+  }
+  if (button.dataset.view) {
+    setProductView(button.dataset.view);
+    return;
+  }
+  if (button.hasAttribute("data-gallery-toggle")) {
+    setProductView(chosenView === "front" ? "back" : "front");
     return;
   }
   if (button.dataset.size) {

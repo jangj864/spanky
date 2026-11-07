@@ -22,7 +22,10 @@ for (const filename of (await readdir("dist")).filter((f) =>
     await access(resolve("dist", url.split(/[?#]/)[0]));
   }
 }
-for (const p of products) await access(resolve("dist", asset(p)));
+for (const p of products) {
+  await access(resolve("dist", asset(p)));
+  await access(resolve("dist", asset(p, "back")));
+}
 assert.equal(products.length, 7);
 console.log(
   "Pages, metadata, local links, IDs and seven collection assets verified.",
