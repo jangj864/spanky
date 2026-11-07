@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  asset,
   concepts,
   money,
   products,
@@ -61,19 +62,28 @@ test("cart works with corrupt or blocked storage and updates totals correctly", 
   assert.equal(cart.count(), 0);
 });
 
-test("all seven products cost USD 15 and format in dollars", () => {
+test("all products cost USD 15 and format in dollars", () => {
   assert(products.every((product) => product.price === 15));
   assert.equal(money(15), "$15");
   assert.equal(money(30), "$30");
 });
 
-test("special category has four artist concepts with valid stable IDs and front assets", () => {
+test("special category has five artist concepts with valid stable IDs and front assets", () => {
   const special = filterProducts({ collection: "special" });
   assert.deepEqual(
     special.map((p) => p.id),
-    [100, 101, 102, 103],
+    [100, 101, 102, 103, 104],
   );
-  assert(special.every((p) => !p.hasBack && p.price === 15 && p.image));
+  assert(
+    special.every(
+      (p) =>
+        p.hasBack &&
+        p.price === 15 &&
+        p.image &&
+        asset(p, "back") === p.backImage &&
+        p.backImage !== p.image,
+    ),
+  );
   assert.equal(filterProducts({ collection: "core" }).length, 7);
   assert.equal(
     filterProducts({ query: "kaws", collection: "special" })[0].id,

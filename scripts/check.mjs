@@ -26,7 +26,7 @@ for (const p of products) {
   await access(resolve("dist", asset(p)));
   if (p.hasBack) await access(resolve("dist", asset(p, "back")));
 }
-assert.equal(products.length, 11);
+assert.equal(products.length, 12);
 console.log(
   "Pages, metadata, local links, IDs and collection assets verified.",
 );

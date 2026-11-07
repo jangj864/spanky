@@ -84,6 +84,14 @@ concepts.push(
     color: "#b69ac7",
     keywords: "kaws special collaboration grey lavender pink character",
   },
+  {
+    name: "Piet Mondrian",
+    motif: "Balance in primary colors",
+    description:
+      "Red, blue and yellow planes framed by a bold black grid on ivory.",
+    color: "#e7302a",
+    keywords: "mondrian piet special edition primary grid geometric",
+  },
 );
 export const sizes = ["S", "M", "L", "XL"];
 export const products = concepts.slice(0, 7).map((concept, index) => ({
@@ -96,24 +104,29 @@ export const products = concepts.slice(0, 7).map((concept, index) => ({
   hasBack: true,
 }));
 products.push(
-  ...["haring", "basquiat", "kaikaikiki", "kaws"].map((slug, index) => ({
-    id: 100 + index,
-    c: 7 + index,
-    name: `SPANKY × ${concepts[7 + index].name}`,
-    price: 15,
-    collection: "special",
-    hasBack: false,
-    image: `assets/special-${slug}.png`,
-  })),
+  ...["haring", "basquiat", "kaikaikiki", "kaws", "mondrian"].map(
+    (slug, index) => ({
+      id: 100 + index,
+      c: 7 + index,
+      name: `SPANKY × ${concepts[7 + index].name}`,
+      price: 15,
+      collection: "special",
+      hasBack: true,
+      backImage: `assets/special-${slug}-back.png`,
+      image: `assets/special-${slug}.png`,
+    }),
+  ),
 );
 export const getProduct = (id) =>
   products.find((product) => product.id === Number(id));
 export const asset = (product, view = "front") =>
-  product.image
-    ? product.image
-    : view === "back"
-      ? `assets/product-${product.c}-back.png`
-      : `assets/product-${product.c}-3.webp`;
+  view === "back" && product.backImage
+    ? product.backImage
+    : product.image
+      ? product.image
+      : view === "back"
+        ? `assets/product-${product.c}-back.png`
+        : `assets/product-${product.c}-3.webp`;
 export const money = (value) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
