@@ -14,7 +14,7 @@ for (const directory of ["styles", "scripts"])
 const conceptCards = products
   .map((product) => {
     const concept = concepts[product.c];
-    return `<article class="concept-item"><img src="${asset(product)}" alt="${product.name}" width="1536" height="1024" loading="lazy"><h3>${concept.name}</h3><p>${concept.motif}</p><button class="text-link" data-product="${product.id}">Explore Type D ↗</button></article>`;
+    return `<article class="concept-item"><img src="${asset(product)}" alt="${product.name}" width="1536" height="1024" loading="lazy"><h3>${concept.name}</h3><p>${concept.motif}</p><button class="text-link" data-product="${product.id}">Explore design ↗</button></article>`;
   })
   .join("");
 for (const [page, meta] of Object.entries(pages)) {
@@ -28,5 +28,5 @@ for (const [page, meta] of Object.entries(pages)) {
 }
 await writeFile(`${root}dist/.nojekyll`, "");
 console.log(
-  `Built ${Object.keys(pages).length} pages and ${products.length} Type D products.`,
+  `Built ${Object.keys(pages).length} pages and ${products.length} collection products.`,
 );

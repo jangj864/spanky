@@ -1,18 +1,19 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  concepts,
   products,
   getProduct,
   filterProducts,
 } from "../src/scripts/catalog.js";
 import { normalizeCart, createCartStore } from "../src/scripts/cart.js";
-test("only seven Type D designs remain with stable IDs", () => {
+test("only seven collection designs remain with stable IDs", () => {
   assert.equal(products.length, 7);
   assert.deepEqual(
     products.map((p) => p.id),
     [3, 7, 11, 15, 19, 23, 27],
   );
-  assert(products.every((p) => p.t === 3 && p.name.endsWith("Type D")));
+  assert(products.every((p) => p.t === 3 && p.name === concepts[p.c].name));
   assert.equal(getProduct(0), undefined);
 });
 test("search matches concept, motif and color without mutating catalog", () => {

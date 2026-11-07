@@ -42,7 +42,7 @@ function render() {
   $("#products").innerHTML = list
     .map(
       (p) =>
-        `<article class="product"><div class="product-visual"><span class="tag">COLLECTION 01 / TYPE D</span><button class="image-button product-image-button" data-product="${p.id}" aria-label="${p.name} view details"><img src="${asset(p)}" alt="${p.name} All-over boxer brief" loading="lazy"></button><button class="quick" data-product="${p.id}" aria-label="${p.name} choose options">+</button></div><div class="product-title"><h3><button data-product="${p.id}" class="product-name-button">${p.name}</button></h3><span class="price">${money(p.price)}</span></div><p class="product-sub">BOXER BRIEF · TYPE D / All-over</p><div class="swatches"><span class="swatch" style="--c:${concepts[p.c].color}"></span><span style="font-size:9px;color:#777">S – XL</span></div></article>`,
+        `<article class="product"><div class="product-visual"><span class="tag">COLLECTION 01</span><button class="image-button product-image-button" data-product="${p.id}" aria-label="${p.name} view details"><img src="${asset(p)}" alt="${p.name} All-over boxer brief" loading="lazy"></button><button class="quick" data-product="${p.id}" aria-label="${p.name} choose options">+</button></div><div class="product-title"><h3><button data-product="${p.id}" class="product-name-button">${p.name}</button></h3><span class="price">${money(p.price)}</span></div><p class="product-sub">BOXER BRIEF · All-over</p><div class="swatches"><span class="swatch" style="--c:${concepts[p.c].color}"></span><span style="font-size:9px;color:#777">S – XL</span></div></article>`,
     )
     .join("");
   $("#resultsCount").textContent = `${total} designs`;
@@ -55,7 +55,7 @@ function detail(id, reset = true) {
   const p = selected,
     c = concepts[p.c];
   $("#productDetail").innerHTML =
-    `<div class="detail"><div class="detail-image"><img src="${asset(p)}" alt="${p.name} product concept"></div><div><div class="eyebrow">COLLECTION 01 / ${c.motif.toUpperCase()}</div><h2>${p.name}</h2><b>${money(p.price)}</b><p>${c.description}<br>An artistic interpretation of the ${c.name} collection concept, not a universal description of a diagnosis.</p><div class="label">GRAPHIC / TYPE D · ALL-OVER</div><div class="label">SIZE <button data-guide class="guide-link">Size guide ↗</button></div><div class="choices">${sizes.map((s) => `<button data-size="${s}" aria-pressed="${s === chosenSize}" class="${s === chosenSize ? "selected" : ""}">${s}</button>`).join("")}</div><button class="button green full" id="add">Add to bag <span>+</span></button><p>Design concept. Prices and sizes are illustrative.<br>Final pattern placement and production specifications may vary.</p></div></div>`;
+    `<div class="detail"><div class="detail-image"><img src="${asset(p)}" alt="${p.name} product concept"></div><div><div class="eyebrow">COLLECTION 01 / ${c.motif.toUpperCase()}</div><h2>${p.name}</h2><b>${money(p.price)}</b><p>${c.description}<br>An artistic interpretation of the ${c.name} collection concept, not a universal description of a diagnosis.</p><div class="label">GRAPHIC / ALL-OVER</div><div class="label">SIZE <button data-guide class="guide-link">Size guide ↗</button></div><div class="choices">${sizes.map((s) => `<button data-size="${s}" aria-pressed="${s === chosenSize}" class="${s === chosenSize ? "selected" : ""}">${s}</button>`).join("")}</div><button class="button green full" id="add">Add to bag <span>+</span></button><p>Design concept. Prices and sizes are illustrative.<br>Final pattern placement and production specifications may vary.</p></div></div>`;
   if (pd.open && !reset)
     document.querySelector(`[data-size="${chosenSize}"]`)?.focus();
   openDialog(pd);
@@ -74,7 +74,7 @@ function cartView() {
         ? cart
             .map((r, i) => {
               const p = getProduct(r.id);
-              return `<div class="cart-row"><img src="${asset(p)}" alt="${p.name}"><div><h3>${p.name}</h3><p>TYPE D · ${r.size} / ${money(p.price)}</p><div class="quantity"><button data-qty="${i}" data-delta="-1" aria-label="Decrease quantity">−</button><span>${r.qty}</span><button data-qty="${i}" data-delta="1" ${r.qty >= 10 ? "disabled" : ""} aria-label="Increase quantity">+</button></div></div><div>${money(p.price * r.qty)}<br><button class="remove" data-remove="${i}">Remove</button></div></div>`;
+              return `<div class="cart-row"><img src="${asset(p)}" alt="${p.name}"><div><h3>${p.name}</h3><p>SIZE ${r.size} / ${money(p.price)}</p><div class="quantity"><button data-qty="${i}" data-delta="-1" aria-label="Decrease quantity">−</button><span>${r.qty}</span><button data-qty="${i}" data-delta="1" ${r.qty >= 10 ? "disabled" : ""} aria-label="Increase quantity">+</button></div></div><div>${money(p.price * r.qty)}<br><button class="remove" data-remove="${i}">Remove</button></div></div>`;
             })
             .join("") +
           `<div class="total"><span>Subtotal</span><b>${money(subtotal)}</b></div><p class="sample-note">Demo order only. No payment or shipping takes place.</p><button id="checkout" class="button green full">Checkout <span>↗</span></button>`

@@ -55,7 +55,7 @@ export const products = concepts.map((concept, index) => ({
   id: index * 4 + 3,
   c: index,
   t: 3,
-  name: `${concept.name} — Type D`,
+  name: `${concept.name}`,
   price: 38000,
 }));
 export const getProduct = (id) =>

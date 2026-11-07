@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Type D search, options, persistent cross-page bag and demo order", async ({
+test("Collection search, options, persistent cross-page bag and demo order", async ({
   page,
 }) => {
   const errors = [];
@@ -19,9 +19,10 @@ test("Type D search, options, persistent cross-page bag and demo order", async (
   await page.goto("/about.html");
   await expect(page.locator("[data-cart-count]")).toHaveText("1");
   await page.locator("[data-open-cart]").click();
-  await expect(page.locator(".cart-row")).toContainText("Bipolar — Type D");
+  await expect(page.locator(".cart-row")).toContainText("Bipolar");
   await page.getByRole("button", { name: "Increase quantity" }).click();
   await expect(page.locator(".total")).toContainText("76,000");
+  await expect(page.locator("#cartContent")).not.toContainText(/type\s+d/i);
   await page.locator("#checkout").click();
   await page.locator('#orderForm button[type="submit"]').click();
   await expect(page.locator("#orderForm")).toBeVisible();
@@ -46,6 +47,7 @@ for (const route of ["index", "about", "world", "campaign", "packaging"]) {
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`/${route}.html`);
+    await expect(page.locator("body")).not.toContainText(/type\s+d/i);
     await page.locator(".menu-toggle").click();
     await expect(page.locator(".menu-toggle")).toHaveAttribute(
       "aria-expanded",
@@ -91,5 +93,5 @@ test("obsolete A–C products and malformed saved rows cannot enter the bag", as
   await expect(page.locator("[data-cart-count]")).toHaveText("2");
   await page.locator("[data-open-cart]").click();
   await expect(page.locator(".cart-row")).toHaveCount(1);
-  await expect(page.locator(".cart-row")).toContainText("Bipolar — Type D");
+  await expect(page.locator(".cart-row")).toContainText("Bipolar");
 });

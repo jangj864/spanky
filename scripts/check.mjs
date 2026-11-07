@@ -7,6 +7,7 @@ for (const filename of (await readdir("dist")).filter((f) =>
 )) {
   const html = await readFile(`dist/${filename}`, "utf8");
   assert.match(html, /lang="en"/);
+  assert.doesNotMatch(html, /type\s+d/i, `${filename}: retired display label`);
   assert.equal((html.match(/<main\b/g) || []).length, 1);
   assert.match(html, /aria-label="Main navigation"/);
   assert.match(html, /name="description"/);
@@ -24,5 +25,5 @@ for (const filename of (await readdir("dist")).filter((f) =>
 for (const p of products) await access(resolve("dist", asset(p)));
 assert.equal(products.length, 7);
 console.log(
-  "Pages, metadata, local links, IDs and seven Type D assets verified.",
+  "Pages, metadata, local links, IDs and seven collection assets verified.",
 );
