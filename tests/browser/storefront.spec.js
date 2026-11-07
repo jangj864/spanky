@@ -21,7 +21,7 @@ test("Collection search, options, persistent cross-page bag and demo order", asy
   await page.locator("[data-open-cart]").click();
   await expect(page.locator(".cart-row")).toContainText("Bipolar");
   await page.getByRole("button", { name: "Increase quantity" }).click();
-  await expect(page.locator(".total")).toContainText("76,000");
+  await expect(page.locator(".total")).toContainText("$30");
   await expect(page.locator("#cartContent")).not.toContainText(/type\s+d/i);
   await page.locator("#checkout").click();
   await page.locator('#orderForm button[type="submit"]').click();

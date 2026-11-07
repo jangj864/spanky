@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   concepts,
+  money,
   products,
   getProduct,
   filterProducts,
@@ -47,11 +48,17 @@ test("cart works with corrupt or blocked storage and updates totals correctly", 
   cart.add(3, "M");
   cart.add(3, "M");
   cart.add(7, "L");
-  assert.equal(cart.subtotal(), 114000);
+  assert.equal(cart.subtotal(), 45);
   cart.change(3, "M", -2);
   assert.equal(cart.count(), 1);
   cart.remove(7, "L");
   assert.equal(cart.subtotal(), 0);
   cart.add(0, "M");
   assert.equal(cart.count(), 0);
+});
+
+test("all seven products cost USD 15 and format in dollars", () => {
+  assert(products.every((product) => product.price === 15));
+  assert.equal(money(15), "$15");
+  assert.equal(money(30), "$30");
 });

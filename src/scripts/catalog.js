@@ -56,7 +56,7 @@ export const products = concepts.map((concept, index) => ({
   c: index,
   t: 3,
   name: `${concept.name}`,
-  price: 38000,
+  price: 15,
 }));
 export const getProduct = (id) =>
   products.find((product) => product.id === Number(id));
@@ -64,7 +64,7 @@ export const asset = (product) => `assets/product-${product.c}-3.webp`;
 export const money = (value) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "KRW",
+    currency: "USD",
     maximumFractionDigits: 0,
   }).format(value);
 export function filterProducts({ query = "", sort = "featured" } = {}) {
