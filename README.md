@@ -40,7 +40,7 @@ npm run test:e2e # browser regression suite
 
 ## Deploy
 
-Push to `main`. `.github/workflows/deploy-pages.yml` installs pinned development dependencies, builds, runs checks, and publishes `dist/` to GitHub Pages. Catalogue/cart unit tests, page checks and browser regression tests must pass before deployment. Pages must use **GitHub Actions** as its source. All URLs are relative to support the `/spanky/` subdirectory.
+Push to `main`. `.github/workflows/deploy-pages.yml` installs pinned development dependencies, builds, runs checks, and publishes `dist/` to GitHub Pages. Catalogue/cart unit tests, page checks and browser regression tests must pass before deployment. Pages must use **GitHub Actions** as its source. All URLs are relative to support the `/spanky/` subdirectory. Build-generated content hashes version the complete JavaScript module graph and stylesheet, preventing stale catalogue and price data after deployment.
 
 ## Store behavior
 

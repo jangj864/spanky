@@ -4,7 +4,15 @@ const navigation = [
   ["world.html", "Explore", "world"],
   ["about.html", "About", "about"],
 ];
-export function renderLayout({ page, title, description, dark, content }) {
+export function renderLayout({
+  page,
+  title,
+  description,
+  dark,
+  content,
+  scriptVersion,
+  styleVersion,
+}) {
   const links = navigation
     .map(
       ([url, label, key]) =>
@@ -19,7 +27,7 @@ export function renderLayout({ page, title, description, dark, content }) {
 <meta property="og:title" content="${title}"><meta property="og:description" content="${description}"><meta property="og:type" content="website"><meta property="og:image" content="https://jangj864.github.io/spanky/assets/campaign-sagging-wide.png">
 <title>${title}</title><link rel="icon" href="assets/favicon.svg">
 <link rel="preload" href="assets/fonts/cinea-700.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles/main.css"><script type="module" src="scripts/site.js"></script><script type="module" src="scripts/storefront.js"></script>
+<link rel="stylesheet" href="styles/main.${styleVersion}.css"><script type="module" src="scripts/${scriptVersion}/site.js"></script><script type="module" src="scripts/${scriptVersion}/storefront.js"></script>
 </head>
 <body class="${dark ? "world-page" : "store-page"}">
 <a class="skip-link" href="#main">Skip to content</a>

@@ -1,4 +1,5 @@
-import { readFile, writeFile, mkdir, cp, rm } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { readFile, writeFile, mkdir, cp, rm, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { renderLayout } from "../src/layout.mjs";
 import { concepts, products, asset } from "../src/scripts/catalog.js";
@@ -7,10 +8,22 @@ const pages = JSON.parse(await readFile(`${root}src/pages.json`, "utf8"));
 await rm(`${root}dist`, { recursive: true, force: true });
 await mkdir(`${root}dist`, { recursive: true });
 await cp(`${root}public`, `${root}dist`, { recursive: true });
-for (const directory of ["styles", "scripts"])
-  await cp(`${root}src/${directory}`, `${root}dist/${directory}`, {
-    recursive: true,
-  });
+// Hash the entire module graph together so relative imports share the same version.
+const scriptFiles = (await readdir(`${root}src/scripts`)).sort();
+const scriptHash = createHash("sha256");
+for (const file of scriptFiles)
+  scriptHash.update(file).update(await readFile(`${root}src/scripts/${file}`));
+const scriptVersion = scriptHash.digest("hex").slice(0, 12);
+const css = await readFile(`${root}src/styles/main.css`);
+const styleVersion = createHash("sha256")
+  .update(css)
+  .digest("hex")
+  .slice(0, 12);
+await mkdir(`${root}dist/styles`, { recursive: true });
+await writeFile(`${root}dist/styles/main.${styleVersion}.css`, css);
+await cp(`${root}src/scripts`, `${root}dist/scripts/${scriptVersion}`, {
+  recursive: true,
+});
 const conceptCards = products
   .map((product) => {
     const concept = concepts[product.c];
@@ -23,7 +36,7 @@ for (const [page, meta] of Object.entries(pages)) {
   ).replace("{{conceptCards}}", conceptCards);
   await writeFile(
     `${root}dist/${page}.html`,
-    renderLayout({ page, ...meta, content }),
+    renderLayout({ page, ...meta, content, scriptVersion, styleVersion }),
   );
 }
 await writeFile(`${root}dist/.nojekyll`, "");
