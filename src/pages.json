@@ -1,0 +1,27 @@
+{
+  "index": {
+    "title": "SPANKY \u2014 Wear your state of mind",
+    "description": "SPANKY Collection 01. Seven artistic concepts, one all-over collection. Find your first layer of self-expression.",
+    "dark": false
+  },
+  "about": {
+    "title": "About SPANKY \u2014 Beyond appearances",
+    "description": "Discover the SPANKY belief: honest expression, understanding and pride.",
+    "dark": true
+  },
+  "world": {
+    "title": "SPANKY World \u2014 SPANKY",
+    "description": "Explore the colors, spaces and experiences of SPANKY.",
+    "dark": true
+  },
+  "packaging": {
+    "title": "Unbox your mood \u2014 SPANKY",
+    "description": "Unbox your mood. Discover the SPANKY packaging concept.",
+    "dark": true
+  },
+  "campaign": {
+    "title": "After hours \u2014 SPANKY",
+    "description": "After hours: music, community and expression with SPANKY.",
+    "dark": true
+  }
+}

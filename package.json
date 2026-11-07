@@ -1,0 +1,16 @@
+{
+  "name": "spanky",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm run build && npm test && node scripts/check.mjs",
+    "dev": "npm run build && node scripts/serve.mjs",
+    "format": "prettier --write src scripts tests package.json README.md"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10"
+  }
+}
