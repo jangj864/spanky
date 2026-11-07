@@ -9,12 +9,16 @@ import {
 } from "../src/scripts/catalog.js";
 import { normalizeCart, createCartStore } from "../src/scripts/cart.js";
 test("only seven collection designs remain with stable IDs", () => {
-  assert.equal(products.length, 7);
+  assert.equal(products.filter((p) => p.collection === "core").length, 7);
   assert.deepEqual(
-    products.map((p) => p.id),
+    products.filter((p) => p.collection === "core").map((p) => p.id),
     [3, 7, 11, 15, 19, 23, 27],
   );
-  assert(products.every((p) => p.t === 3 && p.name === concepts[p.c].name));
+  assert(
+    products
+      .filter((p) => p.collection === "core")
+      .every((p) => p.t === 3 && p.name === concepts[p.c].name),
+  );
   assert.equal(getProduct(0), undefined);
 });
 test("search matches concept, motif and color without mutating catalog", () => {
@@ -61,4 +65,18 @@ test("all seven products cost USD 15 and format in dollars", () => {
   assert(products.every((product) => product.price === 15));
   assert.equal(money(15), "$15");
   assert.equal(money(30), "$30");
+});
+
+test("special category has four artist concepts with valid stable IDs and front assets", () => {
+  const special = filterProducts({ collection: "special" });
+  assert.deepEqual(
+    special.map((p) => p.id),
+    [100, 101, 102, 103],
+  );
+  assert(special.every((p) => !p.hasBack && p.price === 15 && p.image));
+  assert.equal(filterProducts({ collection: "core" }).length, 7);
+  assert.equal(
+    filterProducts({ query: "kaws", collection: "special" })[0].id,
+    103,
+  );
 });

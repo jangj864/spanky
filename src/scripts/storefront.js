@@ -14,7 +14,11 @@ try {
 } catch {}
 const cartStore = createCartStore(storage);
 let cart = cartStore.items();
-let sort = "featured",
+let collection =
+    new URLSearchParams(location.search).get("collection") === "special"
+      ? "special"
+      : "all",
+  sort = "featured",
   query = "",
   selected = null,
   chosenSize = "M",
@@ -38,16 +42,22 @@ function sync() {
 }
 
 function render() {
-  const list = filterProducts({ query, sort });
+  const list = filterProducts({ query, sort, collection });
   const total = list.length;
   $("#products").innerHTML = list
     .map(
       (p) =>
-        `<article class="product"><div class="product-visual"><span class="tag">COLLECTION 01</span><button class="image-button product-image-button" data-product="${p.id}" aria-label="${p.name} view details"><img src="${asset(p)}" alt="${p.name} All-over boxer brief" loading="lazy"></button><button class="quick" data-product="${p.id}" aria-label="${p.name} choose options">+</button></div><div class="product-title"><h3><button data-product="${p.id}" class="product-name-button">${p.name}</button></h3><span class="price">${money(p.price)}</span></div><p class="product-sub">BOXER BRIEF · All-over</p><div class="swatches"><span class="swatch" style="--c:${concepts[p.c].color}"></span><span style="font-size:9px;color:#777">S – XL</span></div></article>`,
+        `<article class="product"><div class="product-visual"><span class="tag">${p.collection === "special" ? "SPECIAL COLLECTION" : "COLLECTION 01"}</span><button class="image-button product-image-button" data-product="${p.id}" aria-label="${p.name} view details"><img src="${asset(p)}" alt="${p.name} All-over boxer brief" loading="lazy"></button><button class="quick" data-product="${p.id}" aria-label="${p.name} choose options">+</button></div><div class="product-title"><h3><button data-product="${p.id}" class="product-name-button">${p.name}</button></h3><span class="price">${money(p.price)}</span></div><p class="product-sub">BOXER BRIEF · All-over</p><div class="swatches"><span class="swatch" style="--c:${concepts[p.c].color}"></span><span style="font-size:9px;color:#777">S – XL</span></div></article>`,
     )
     .join("");
   $("#resultsCount").textContent = `${total} designs`;
   $("#noResults").hidden = total !== 0;
+  document.querySelectorAll("[data-collection]").forEach((button) => {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.collection === collection),
+    );
+  });
 }
 function detail(id, reset = true) {
   selected = getProduct(id);
@@ -59,13 +69,18 @@ function detail(id, reset = true) {
   const p = selected,
     c = concepts[p.c];
   $("#productDetail").innerHTML =
-    `<div class="detail"><div class="product-gallery"><button class="gallery-main detail-image" data-gallery-toggle aria-label="Show ${chosenView === "front" ? "back" : "front"} view"><img id="detailPhoto" src="${asset(p, chosenView)}" alt="${p.name} — ${chosenView} view" width="1536" height="1024"></button><div class="gallery-controls" role="group" aria-label="Product view">${["front", "back"].map((view) => `<button data-view="${view}" aria-pressed="${chosenView === view}"><img src="${asset(p, view)}" alt="" width="1536" height="1024"><span>${view === "front" ? "Front" : "Back"}</span></button>`).join("")}</div><p class="gallery-hint">Click the image or choose a view.</p></div><div><div class="eyebrow">COLLECTION 01 / ${c.motif.toUpperCase()}</div><h2>${p.name}</h2><b>${money(p.price)}</b><p>${c.description}<br>An artistic interpretation of the ${c.name} collection concept, not a universal description of a diagnosis.</p><div class="label">GRAPHIC / ALL-OVER</div><div class="label">SIZE <button data-guide class="guide-link">Size guide ↗</button></div><div class="choices">${sizes.map((s) => `<button data-size="${s}" aria-pressed="${s === chosenSize}" class="${s === chosenSize ? "selected" : ""}">${s}</button>`).join("")}</div><button class="button green full" id="add">Add to bag <span>+</span></button><p>Design concept. Prices and sizes are illustrative.<br>Final pattern placement and production specifications may vary.</p></div></div>`;
+    `<div class="detail"><div class="product-gallery"><button class="gallery-main detail-image" ${p.hasBack ? "data-gallery-toggle" : "disabled"} aria-label="Show ${chosenView === "front" ? "back" : "front"} view"><img id="detailPhoto" src="${asset(p, chosenView)}" alt="${p.name} — ${chosenView} view" width="1536" height="1024"></button><div class="gallery-controls" role="group" aria-label="Product view">${(p.hasBack ? ["front", "back"] : ["front"]).map((view) => `<button data-view="${view}" aria-pressed="${chosenView === view}"><img src="${asset(p, view)}" alt="" width="1536" height="1024"><span>${view === "front" ? "Front" : "Back"}</span></button>`).join("")}</div><p class="gallery-hint">${p.hasBack ? "Click the image or choose a view." : "Front view / artist collaboration concept."}</p></div><div><div class="eyebrow">${p.collection === "special" ? "SPECIAL COLLECTION" : "COLLECTION 01"} / ${c.motif.toUpperCase()}</div><h2>${p.name}</h2><b>${money(p.price)}</b><p>${c.description}<br>${p.collection === "special" ? "An artist collaboration concept for the SPANKY design project." : `An artistic interpretation of the ${c.name} collection concept, not a universal description of a diagnosis.`}</p><div class="label">GRAPHIC / ALL-OVER</div><div class="label">SIZE <button data-guide class="guide-link">Size guide ↗</button></div><div class="choices">${sizes.map((s) => `<button data-size="${s}" aria-pressed="${s === chosenSize}" class="${s === chosenSize ? "selected" : ""}">${s}</button>`).join("")}</div><button class="button green full" id="add">Add to bag <span>+</span></button><p>Design concept. Prices and sizes are illustrative.<br>Final pattern placement and production specifications may vary.</p></div></div>`;
   if (pd.open && !reset)
     document.querySelector(`[data-size="${chosenSize}"]`)?.focus();
   openDialog(pd);
 }
 function setProductView(view) {
-  if (!selected || !["front", "back"].includes(view)) return;
+  if (
+    !selected ||
+    !["front", "back"].includes(view) ||
+    (view === "back" && !selected.hasBack)
+  )
+    return;
   chosenView = view;
   const photo = $("#detailPhoto");
   photo.src = asset(selected, view);
@@ -121,6 +136,7 @@ function shipping() {
   openDialog(info);
 }
 function resetFilters() {
+  collection = "all";
   sort = "featured";
   query = "";
   $("#search").value = "";
@@ -138,6 +154,11 @@ document.addEventListener("click", (event) => {
   if (!button) return;
   if (button.classList.contains("close")) {
     button.closest("dialog").close();
+    return;
+  }
+  if (button.dataset.collection) {
+    collection = button.dataset.collection;
+    render();
     return;
   }
   if (button.dataset.product !== undefined) {

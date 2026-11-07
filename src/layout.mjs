@@ -40,7 +40,7 @@ export function renderLayout({
 <main id="main">${content}</main>
 <footer class="site-footer">
 <div class="footer-lead"><div class="eyebrow">YOUR FIRST LAYER OF SELF-EXPRESSION</div><a href="index.html#shop">Stay a little spanky. ↗</a></div>
-<div class="footer-columns"><div><h2>Collection</h2><a href="index.html#shop">All-over collection</a><a href="index.html#lookbook">Lookbook</a></div><div><h2>Discover</h2><a href="about.html">Our belief</a><a href="world.html">Explore</a><a href="campaign.html">After hours</a><a href="packaging.html">Packaging</a></div><div><h2>Good to know</h2><button id="sizeGuide">Size guide</button><button id="shipping">Shipping & returns</button><p>A design studio storefront.<br>All orders are demonstrations.</p></div></div>
+<div class="footer-columns"><div><h2>Collection</h2><a href="index.html#shop">All-over collection</a><a href="index.html?collection=special#shop">Special Collection</a><a href="index.html#lookbook">Lookbook</a></div><div><h2>Discover</h2><a href="about.html">Our belief</a><a href="world.html">Explore</a><a href="campaign.html">After hours</a><a href="packaging.html">Packaging</a></div><div><h2>Good to know</h2><button id="sizeGuide">Size guide</button><button id="shipping">Shipping & returns</button><p>A design studio storefront.<br>All orders are demonstrations.</p></div></div>
 <div class="footer-legal"><span>SPANKY® © 2026 · JINHYEOK JANG</span><span>Different expressions. Same you.</span><a href="#main">Back to top ↑</a></div>
 </footer>
 <dialog id="productDialog" aria-label="Product options"><button class="close" aria-label="Close product options">×</button><div id="productDetail"></div></dialog>

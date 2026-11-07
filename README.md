@@ -1,6 +1,6 @@
 # SPANKY
 
-English-only brand storefront for Jinhyeok Jang's SPANKY design studio project. Seven **Type D / all-over** boxer briefs. The collection names, colors, artwork and philosophy follow the supplied brand identity PDF.
+English-only brand storefront for Jinhyeok Jang's SPANKY design studio project. Seven original all-over boxer briefs and four Special Collection artist collaboration concepts. The collection names, colors, artwork and philosophy follow the supplied brand identity PDF.
 
 Live: https://jangj864.github.io/spanky/
 
@@ -44,7 +44,7 @@ Push to `main`. `.github/workflows/deploy-pages.yml` installs pinned development
 
 ## Store behavior
 
-- Seven Type D designs; A–C products and their public asset copies have been removed.
+- Seven original all-over designs and four Special Collection concepts (Keith Haring, Jean-Michel Basquiat, Kaikai Kiki and KAWS). A–C products and their public asset copies have been removed.
 - Stable numeric product IDs preserve existing Type D carts; stored A–C entries are discarded.
 - Cart storage contains only product ID, size and quantity. Invalid data is dropped, duplicates merge, and each design/size is limited to 10.
 - Blocked or corrupt local storage does not prevent the current shopping session. Open tabs synchronize cart updates.
@@ -60,3 +60,5 @@ Prices, sizing and shipping are illustrative. Checkout is a **demo**, with no pa
 The SVG wordmark is the supplied master, independent of the display typeface. Product WebPs derive from the user's 28 supplied PNGs; the current storefront serves Type D only. Event, packaging and retail-space images are concept mockups. The wide model image `campaign-sagging-wide.png` was generated with built-in image_gen from SPANKY's purple wave and lime branching product references. It is explicitly labeled as an AI campaign visual.
 
 TBJ Cinea Sans files supplied by the user are Demo/Trial, used for this noncommercial studio concept; verify the appropriate web/commercial license before retail use. The included notice is in `public/assets/fonts/Befonts-License.txt`. Pretendard is loaded from its version-pinned official distribution under the SIL Open Font License.
+
+Special Collection assets are the four user-supplied front-view mockups; no back views were invented. All eleven designs are USD 15 in this demo. Category filtering can be linked with `index.html?collection=special#shop`.

@@ -6,13 +6,13 @@ test("Collection search, options, persistent cross-page bag and demo order", asy
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page.locator(".product")).toHaveCount(7);
+  await expect(page.locator(".product")).toHaveCount(11);
   await page.locator("#search").fill("lime");
   await expect(page.locator(".product")).toHaveCount(1);
   await page.locator("#search").fill("no such design");
   await expect(page.locator("#noResults")).toBeVisible();
   await page.locator("#resetFilters").click();
-  await expect(page.locator(".product")).toHaveCount(7);
+  await expect(page.locator(".product")).toHaveCount(11);
   await page.locator('[data-product="7"]').first().click();
   await page.locator('[data-size="L"]').click();
   await page.locator("#add").click();
@@ -133,4 +133,29 @@ test("every product has a matching clickable back view that preserves size selec
     );
     await page.keyboard.press("Escape");
   }
+});
+
+test("Special Collection filters all four artist products and supports options and cart", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Special Collection", exact: true })
+    .click();
+  await expect(page.locator(".product")).toHaveCount(4);
+  for (const id of [100, 101, 102, 103]) {
+    await page.locator(`[data-product="${id}"]`).first().click();
+    await expect(page.locator("#productDetail")).toContainText(
+      "SPECIAL COLLECTION",
+    );
+    await expect(
+      page.getByRole("button", { name: "Back", exact: true }),
+    ).toHaveCount(0);
+    await page.locator("#detailPhoto").evaluate((i) => i.decode());
+    await page.locator('[data-size="L"]').click();
+    await page.locator("#add").click();
+  }
+  await page.locator("[data-open-cart]").click();
+  await expect(page.locator(".cart-row")).toHaveCount(4);
+  await expect(page.locator(".total")).toContainText("$60");
 });

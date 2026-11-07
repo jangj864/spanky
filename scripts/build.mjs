@@ -25,6 +25,7 @@ await cp(`${root}src/scripts`, `${root}dist/scripts/${scriptVersion}`, {
   recursive: true,
 });
 const conceptCards = products
+  .filter((product) => product.collection === "core")
   .map((product) => {
     const concept = concepts[product.c];
     return `<article class="concept-item"><img src="${asset(product)}" alt="${product.name}" width="1536" height="1024" loading="lazy"><h3>${concept.name}</h3><p>${concept.motif}</p><button class="text-link" data-product="${product.id}">Explore design ↗</button></article>`;

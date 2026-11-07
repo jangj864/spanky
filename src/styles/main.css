@@ -2450,3 +2450,40 @@ dialog .close {
     max-width: 85px;
   }
 }
+.collection-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.collection-tabs button {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid #bcb8c4;
+  border-radius: 30px;
+  padding: 10px 17px;
+  font-size: 11px;
+}
+.collection-tabs button[aria-pressed="true"] {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: white;
+}
+.gallery-main:disabled {
+  opacity: 1;
+  cursor: default;
+}
+@media (max-width: 800px) {
+  .collection-tabs {
+    gap: 6px;
+  }
+  .collection-tabs button {
+    font-size: 9px;
+    padding: 8px 10px;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+  }
+  .collection-tabs {
+    width: 100%;
+  }
+}
