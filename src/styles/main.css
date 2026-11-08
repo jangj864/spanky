@@ -2487,3 +2487,88 @@ dialog .close {
     width: 100%;
   }
 }
+
+.experience-gallery {
+  background: var(--deep);
+  color: var(--paper);
+}
+.experience-slides {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+.experience-slides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.experience-slides img[hidden] {
+  display: none;
+}
+.gallery-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 6%;
+  flex-wrap: wrap;
+}
+.gallery-navigation,
+.gallery-dots {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.gallery-navigation > button {
+  border: 1px solid currentColor;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.gallery-dots button {
+  width: 32px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+.gallery-dots button::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--paper);
+  position: absolute;
+  top: 18px;
+  left: 12px;
+}
+.gallery-dots button[aria-pressed="true"]::after {
+  background: var(--green);
+  border-color: var(--green);
+}
+[data-slide-count] {
+  font-size: 12px;
+  white-space: nowrap;
+}
+.gallery-navigation > button {
+  min-width: 44px;
+  padding: 0;
+  flex: 0 0 44px;
+}
+.gallery-dots button {
+  min-width: 32px;
+  padding: 0;
+  flex: 0 0 32px;
+}
+.gallery-navigation {
+  gap: 10px;
+}
+.gallery-controls > .eyebrow {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.experience-gallery {
+  background: var(--purple);
+}

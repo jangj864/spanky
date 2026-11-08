@@ -168,3 +168,27 @@ test("Special Collection filters all five artist products and supports options a
   await expect(page.locator(".cart-row")).toHaveCount(5);
   await expect(page.locator(".total")).toContainText("$75");
 });
+
+for (const route of ["world", "campaign"]) {
+  test(`${route}: image gallery cycles with indicators and keyboard`, async ({
+    page,
+  }) => {
+    await page.goto(`/${route}.html`);
+    const gallery = page.locator("[data-carousel]");
+    await gallery
+      .getByRole("button", { name: "Next image", exact: true })
+      .click();
+    await expect(gallery.locator("[data-slide]:visible")).toHaveAttribute(
+      "src",
+      "assets/night-community.png",
+    );
+    await gallery.locator("[data-slide]:visible").evaluate((i) => i.decode());
+    await expect(gallery.locator('[data-indicator="1"]')).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await gallery.focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(gallery.locator("[data-slide-count]")).toHaveText("01 / 02");
+  });
+}
