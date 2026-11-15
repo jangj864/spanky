@@ -148,29 +148,28 @@ async function init() {
     logoImage.src = "assets/logo.svg";
     await logoImage.decode();
     const canvas = document.createElement("canvas");
-    canvas.width = 2048;
-    canvas.height = 256;
+    canvas.width = 1965;
+    canvas.height = 536;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(logoImage, 0, 0, 2048, 256);
+    ctx.drawImage(logoImage, 0, 0, canvas.width, canvas.height);
     const logoMap = texture(canvas);
     logoMaterial.map = logoMap;
     logoMaterial.transparent = true;
     // Convert the black vector to white while retaining alpha; material tint supplies chosen color.
     ctx.globalCompositeOperation = "source-in";
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, 2048, 256);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     logoMap.needsUpdate = true;
-    const logoGeometry = new THREE.CylinderGeometry(
-      1.003,
-      1.003,
-      0.23,
-      64,
-      1,
-      true,
-      -0.62,
-      1.24,
-    );
-    logoGeometry.scale(0.946, 1, 0.413);
+    // Preserve the SVG's projected aspect ratio, including the garment group scale.
+    const logoWidth = 0.78;
+    const logoHeight = ((logoWidth * 1.12) / 0.92) * (536 / 1965);
+    const logoGeometry = new THREE.PlaneGeometry(logoWidth, logoHeight, 64, 1);
+    const logoPositions = logoGeometry.attributes.position;
+    for (let i = 0; i < logoPositions.count; i++) {
+      const x = logoPositions.getX(i);
+      logoPositions.setZ(i, 0.414 * Math.sqrt(1 - (x / 0.946) ** 2));
+    }
+    logoGeometry.computeVertexNormals();
     const logo = new THREE.Mesh(logoGeometry, logoMaterial);
     logo.position.y = 0.73;
     garment.add(logo);

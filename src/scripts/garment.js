@@ -2,26 +2,26 @@ import * as THREE from "../../assets/vendor/three.module.js";
 // Two sewn half shells meet at the rise; the upper loops share the waist oval.
 // All detailing samples this surface, keeping hems and stitches on the cloth.
 export function clothPoint(side, t, a, offset = 0) {
-  const blend = THREE.MathUtils.smoothstep(t, 0.64, 0.96);
+  const blend = THREE.MathUtils.smoothstep(t, 0.72, 0.98);
   const width = 0.94 + 0.08 * Math.sin((t * Math.PI) / 2);
   const xTop = side * width * Math.max(0, side * Math.cos(a));
-  const xLeg = side * 0.515 + (0.49 + 0.014 * Math.sin(t * 4)) * Math.cos(a);
+  const xLeg = side * 0.515 + (0.49 + 0.004 * Math.sin(t * 4)) * Math.cos(a);
   const x = THREE.MathUtils.lerp(xTop, xLeg, blend);
-  const depth = THREE.MathUtils.lerp(0.405, 0.315, blend);
+  const depth = 0.405 - 0.055 * t;
   let z = depth * Math.sin(a);
   const front = Math.max(0, Math.sin(a));
   const pouch =
-    0.17 *
+    0.11 *
     Math.exp(-Math.pow(x / 0.29, 2) - Math.pow((t - 0.48) / 0.29, 2)) *
     Math.pow(front, 5);
   // Gathered fabric at the elastic relaxes into softer, long folds below it.
-  const gather = 0.018 * Math.sin(a * 38 + side * 0.7) * Math.exp(-t * 7);
+  const gather = 0.009 * Math.sin(a * 38 + side * 0.7) * Math.exp(-t * 7);
   const drape =
-    0.014 * Math.sin(a * 15 + t * 5) * Math.sin(t * Math.PI) +
-    0.006 * Math.sin(a * 27 - t * 11) * Math.sin(t * Math.PI);
+    0.004 * Math.sin(a * 15 + t * 5) * Math.sin(t * Math.PI) +
+    0.002 * Math.sin(a * 27 - t * 11) * Math.sin(t * Math.PI);
   z += (gather + drape) * Math.sin(a) + pouch;
   const y =
-    0.57 - t * 1.42 + 0.012 * Math.sin(a * 3 + t * 4) * Math.sin(t * Math.PI);
+    0.57 - t * 1.62 + 0.004 * Math.sin(a * 3 + t * 4) * Math.sin(t * Math.PI);
   return new THREE.Vector3(
     x + offset * Math.cos(a),
     y,
