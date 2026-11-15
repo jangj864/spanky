@@ -148,7 +148,7 @@ async function init() {
     });
     bodyMaterial.userData.thread = threadMaterial;
     const garment = buildGarment(bodyMaterial, bandMaterial, threadMaterial);
-    garment.scale.set(1.12, 0.92, 1);
+    garment.scale.set(1.12, 0.92, 1.6);
     scene.add(garment);
     const shadowCanvas = document.createElement("canvas");
     shadowCanvas.width = shadowCanvas.height = 128;

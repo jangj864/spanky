@@ -19,7 +19,11 @@ export function clothPoint(side, t, a, offset = 0) {
   const drape =
     0.004 * Math.sin(a * 15 + t * 5) * Math.sin(t * Math.PI) +
     0.002 * Math.sin(a * 27 - t * 11) * Math.sin(t * Math.PI);
-  z += (gather + drape) * Math.sin(a) + pouch;
+  const seat =
+    0.045 *
+    Math.exp(-Math.pow((t - 0.42) / 0.32, 2)) *
+    Math.pow(Math.max(0, -Math.sin(a)), 4);
+  z += (gather + drape) * Math.sin(a) + pouch - seat;
   const y =
     0.57 - t * 1.62 + 0.004 * Math.sin(a * 3 + t * 4) * Math.sin(t * Math.PI);
   return new THREE.Vector3(
@@ -44,6 +48,10 @@ function shell(side, material) {
     }
   for (let j = 0; j < rings; j++)
     for (let i = 0; i < n; i++) {
+      // Above the crotch, the two half-shells share an open interior.
+      // Do not render the collapsed inner arcs as a dividing wall.
+      const angle = ((i + 0.5) / n) * Math.PI * 2;
+      if (side * Math.cos(angle) < 0 && j / rings < 0.72) continue;
       const a = j * (n + 1) + i,
         b = a + n + 1;
       index.push(a, a + 1, b, b, a + 1, b + 1);
