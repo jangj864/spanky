@@ -1,9 +1,9 @@
 export const defaultDesign = {
-  body: "#5946ff",
+  body: "#252528",
   band: "#171719",
-  logo: "#00e82b",
+  logo: "#ffffff",
   accent: "#c8b6ff",
-  pattern: "waves",
+  pattern: "solid",
   scale: 2,
 };
 export function normalizeDesign(value) {
