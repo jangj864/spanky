@@ -118,7 +118,14 @@ products.push(
   ),
 );
 export const getProduct = (id) =>
-  products.find((product) => product.id === Number(id));
+  Number(id) === 200
+    ? {
+        id: 200,
+        name: "Your SPANKY design",
+        price: 15,
+        image: "assets/product-1-3.webp",
+      }
+    : products.find((product) => product.id === Number(id));
 export const asset = (product, view = "front") =>
   view === "back" && product.backImage
     ? product.backImage

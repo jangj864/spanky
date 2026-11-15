@@ -23,5 +23,10 @@
     "title": "After hours \u2014 SPANKY",
     "description": "After hours: music, community and expression with SPANKY.",
     "dark": true
+  },
+  "customize": {
+    "title": "SPANKY Studio \u2014 Make it yours",
+    "description": "Build your own SPANKY boxer brief. Customize colors and patterns in live 3D.",
+    "dark": false
   }
 }

@@ -1,0 +1,84 @@
+<section class="studio-intro">
+  <div class="eyebrow">SPANKY STUDIO / MADE BY YOU</div>
+  <h1>Your first layer.<br /><em>Your own rules.</em></h1>
+  <p>Choose the colors. Set the rhythm. Make it yours.</p>
+</section>
+<section class="custom-studio" aria-label="Underwear customization studio">
+  <div class="studio-preview">
+    <div class="studio-preview-top">
+      <span class="eyebrow">LIVE 3D / BOXER BRIEF</span
+      ><span id="renderStatus" role="status">Loading your canvas…</span>
+    </div>
+    <div
+      id="garmentViewport"
+      aria-label="Interactive 3D underwear preview. Drag to rotate and scroll to zoom."
+    ></div>
+    <div class="studio-view-tools">
+      <button data-camera="front">Front</button
+      ><button data-camera="back">Back</button
+      ><button data-camera="reset">Reset view</button>
+    </div>
+    <p class="studio-hint">Drag to rotate · Scroll or pinch to zoom</p>
+  </div>
+  <form id="customForm" class="studio-options">
+    <div class="eyebrow">01 / BUILD YOUR EXPRESSION</div>
+    <h2>The details<br />are yours.</h2>
+    <fieldset>
+      <legend>Color palette</legend>
+      <div class="studio-colors">
+        <label>Body<input type="color" name="body" value="#5946ff" /></label
+        ><label
+          >Waistband<input type="color" name="band" value="#171719" /></label
+        ><label>Logo<input type="color" name="logo" value="#00e82b" /></label
+        ><label
+          >Pattern<input type="color" name="accent" value="#c8b6ff"
+        /></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Pattern</legend>
+      <div class="studio-patterns">
+        <label
+          ><input type="radio" name="pattern" value="waves" checked />
+          Waves</label
+        ><label><input type="radio" name="pattern" value="grid" /> Grid</label
+        ><label><input type="radio" name="pattern" value="dots" /> Dots</label
+        ><label
+          ><input type="radio" name="pattern" value="solid" /> Solid</label
+        >
+      </div>
+      <label class="studio-range"
+        >Pattern scale<input
+          name="scale"
+          type="range"
+          min="1"
+          max="4"
+          step="1"
+          value="2"
+      /></label>
+    </fieldset>
+    <fieldset>
+      <legend>Size</legend>
+      <div class="studio-sizes">
+        <label><input type="radio" name="size" value="S" /> S</label
+        ><label><input type="radio" name="size" value="M" checked /> M</label
+        ><label><input type="radio" name="size" value="L" /> L</label
+        ><label><input type="radio" name="size" value="XL" /> XL</label>
+      </div>
+    </fieldset>
+    <div class="studio-summary">
+      <span>Your custom boxer brief</span><b>$15</b>
+    </div>
+    <button class="button green full" id="addCustom" type="submit" disabled>
+      Add your design to bag +
+    </button>
+    <div class="studio-secondary">
+      <button type="button" id="saveCustom">Save image ↓</button
+      ><button type="reset">Start over ↺</button>
+    </div>
+    <p class="concept-note">
+      Interactive design concept. The 3D shape and fabric are illustrative. Demo
+      checkout only.
+    </p>
+  </form>
+</section>

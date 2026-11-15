@@ -2572,3 +2572,206 @@ dialog .close {
 .experience-gallery {
   background: var(--purple);
 }
+.studio-intro {
+  padding: 64px 6% 40px;
+}
+.studio-intro h1 {
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: 1;
+  letter-spacing: -3px;
+  margin: 24px 0;
+}
+.studio-intro em,
+.studio-teaser em {
+  color: var(--violet);
+  font-style: normal;
+}
+.custom-studio {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(330px, 1fr);
+  margin: 0 4% 70px;
+  border: 1px solid #d5d3cd;
+}
+.studio-preview {
+  background: radial-gradient(ellipse at center, #fff 0%, #e5e2eb 75%);
+  position: sticky;
+  top: 90px;
+  align-self: start;
+}
+.studio-preview-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  gap: 12px;
+}
+#renderStatus {
+  font-size: 11px;
+}
+#garmentViewport {
+  height: 560px;
+  width: 100%;
+  touch-action: none;
+}
+#garmentViewport canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.studio-view-tools {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.studio-view-tools button,
+.studio-secondary button {
+  padding: 12px 18px;
+  background: transparent;
+  border: 1px solid #b9b4c2;
+  min-width: 0;
+}
+.studio-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #68616f;
+  padding: 12px 0 20px;
+}
+.studio-options {
+  padding: 40px;
+  background: var(--paper);
+}
+.studio-options h2 {
+  font-size: 40px;
+  line-height: 1.05;
+  margin: 20px 0 30px;
+}
+.studio-options fieldset {
+  border: 0;
+  border-top: 1px solid #d5d3cd;
+  padding: 22px 0;
+  margin: 0;
+}
+.studio-options legend {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0 12px 0 0;
+}
+.studio-colors {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.studio-colors label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 11px;
+}
+.studio-colors input {
+  width: 100%;
+  height: 48px;
+  padding: 2px;
+  border: 1px solid #c9c6ce;
+  cursor: pointer;
+  background: transparent;
+}
+.studio-patterns,
+.studio-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.studio-patterns label,
+.studio-sizes label {
+  border: 1px solid #c9c6ce;
+  padding: 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.studio-patterns label:has(:checked),
+.studio-sizes label:has(:checked) {
+  background: var(--ink);
+  color: var(--paper);
+}
+.studio-range {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  font-size: 12px;
+}
+.studio-range input {
+  accent-color: var(--violet);
+  width: 100%;
+}
+.studio-summary,
+.studio-secondary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0;
+  font-size: 13px;
+}
+.studio-teaser {
+  background: var(--purple);
+  color: var(--paper);
+  padding: 70px 6%;
+}
+.studio-teaser h2 {
+  font-size: clamp(48px, 7vw, 100px);
+  line-height: 1;
+  margin: 30px 0;
+}
+.studio-teaser p {
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+.custom-cart-palette {
+  display: flex;
+  gap: 5px;
+}
+.custom-cart-palette span {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #aaa;
+  border-radius: 50%;
+}
+.custom-cart-spec {
+  font-size: 10px !important;
+  line-height: 1.6;
+}
+@media (max-width: 800px) {
+  .custom-studio {
+    grid-template-columns: 1fr;
+    margin: 0 4% 40px;
+  }
+  .studio-preview {
+    position: relative;
+    top: 0;
+  }
+  #garmentViewport {
+    height: 400px;
+  }
+  .studio-options {
+    padding: 24px;
+  }
+  .studio-intro {
+    padding-top: 40px;
+  }
+  .studio-preview-top {
+    padding: 18px;
+  }
+}
+.studio-preview,
+.studio-options,
+#garmentViewport {
+  min-width: 0;
+}
+#garmentViewport {
+  overflow: hidden;
+}
+.studio-options fieldset {
+  min-width: 0;
+}
+.studio-options .concept-note {
+  color: #68616f;
+}

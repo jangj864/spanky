@@ -192,3 +192,39 @@ for (const route of ["world", "campaign"]) {
     await expect(gallery.locator("[data-slide-count]")).toHaveText("01 / 02");
   });
 }
+
+test("3D customization updates live and retains separate designs across pages", async ({
+  page,
+}) => {
+  await page.goto("/customize.html");
+  await expect(page.locator("#garmentViewport")).toHaveAttribute(
+    "data-ready",
+    "true",
+    { timeout: 30000 },
+  );
+  await page.locator('[name="band"]').fill("#ffffff");
+  await page.locator('[name="pattern"][value="dots"]').check();
+  await expect(page.locator("#garmentViewport")).toHaveAttribute(
+    "data-design",
+    /"band":"#ffffff"/,
+  );
+  await page.getByRole("button", { name: "Back", exact: true }).click();
+  await page.locator("#addCustom").click();
+  await expect(page.locator(".cart-row")).toContainText("DOTS");
+  await page.keyboard.press("Escape");
+  await page.locator('[name="band"]').fill("#171719");
+  await page.locator("#addCustom").click();
+  await expect(page.locator(".cart-row")).toHaveCount(2);
+  await page.goto("/about.html");
+  await page.locator("[data-open-cart]").click();
+  await expect(page.locator(".cart-row")).toHaveCount(2);
+  await expect(page.locator(".total")).toContainText("$30");
+  await page.keyboard.press("Escape");
+  await page.goto("/customize.html");
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > innerWidth,
+    ),
+  ).toBe(false);
+});

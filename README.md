@@ -62,3 +62,9 @@ The SVG wordmark is the supplied master, independent of the display typeface. Pr
 TBJ Cinea Sans files supplied by the user are Demo/Trial, used for this noncommercial studio concept; verify the appropriate web/commercial license before retail use. The included notice is in `public/assets/fonts/Befonts-License.txt`. Pretendard is loaded from its version-pinned official distribution under the SIL Open Font License.
 
 Special Collection assets are the five user-supplied front and back mockup pairs. All twelve designs are USD 15 in this demo. Category filtering can be linked with `index.html?collection=special#shop`.
+
+## Customization studio
+
+`customize.html` renders an illustrative parametric boxer brief using Three.js 0.180.0 (vendored in `public/assets/vendor`, with license). `customizer.js` owns the 3D scene, canvas patterns, OrbitControls and PNG export; `design.js` validates the color/pattern configuration and generates bag thumbnails. Custom rows use reserved product ID 200 and are keyed by size plus configuration, so different designs remain distinct across pages and reloads. Checkout remains a demo.
+
+Use `TEST_PORT=4188 npm run test:e2e` when the default preview port is occupied.

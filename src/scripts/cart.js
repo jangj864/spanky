@@ -1,3 +1,4 @@
+import { normalizeDesign, designKey } from "./design.js";
 import { getProduct, sizes } from "./catalog.js";
 export const CART_KEY = "spanky-cart";
 export const MAX_QUANTITY = 10;
@@ -15,10 +16,13 @@ export function normalizeCart(value) {
       row.qty <= 0
     )
       continue;
-    const key = `${row.id}:${row.size}`;
+    const design = row.id === 200 ? normalizeDesign(row.design) : null;
+    if (row.id === 200 && !design) continue;
+    const key = `${row.id}:${row.size}:${designKey(design)}`;
     const previous = result.get(key)?.qty || 0;
     result.set(key, {
       id: row.id,
+      ...(design ? { design } : {}),
       size: row.size,
       qty: Math.min(MAX_QUANTITY, previous + row.qty),
     });
@@ -55,23 +59,30 @@ export function createCartStore(storage) {
       rows = normalizeCart(value);
       persist();
     },
-    add(id, size) {
+    add(id, size, design) {
       if (!getProduct(id) || !sizes.includes(size)) return;
-      rows = normalizeCart([...rows, { id, size, qty: 1 }]);
+      rows = normalizeCart([...rows, { id, size, qty: 1, design }]);
       persist();
     },
-    change(id, size, delta) {
+    change(id, size, delta, design) {
       rows = normalizeCart(
         rows.map((row) =>
-          row.id === id && row.size === size
+          row.id === id &&
+          row.size === size &&
+          designKey(row.design) === designKey(design)
             ? { ...row, qty: row.qty + delta }
             : row,
         ),
       );
       persist();
     },
-    remove(id, size) {
-      rows = rows.filter((row) => row.id !== id || row.size !== size);
+    remove(id, size, design) {
+      rows = rows.filter(
+        (row) =>
+          row.id !== id ||
+          row.size !== size ||
+          designKey(row.design) !== designKey(design),
+      );
       persist();
     },
     clear() {

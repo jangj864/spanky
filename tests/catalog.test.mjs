@@ -90,3 +90,30 @@ test("special category has five artist concepts with valid stable IDs and front 
     103,
   );
 });
+
+test("custom designs stay distinct, persist and reject malformed configuration", async () => {
+  const { defaultDesign } = await import("../src/scripts/design.js");
+  const a = { ...defaultDesign },
+    b = { ...a, band: "#ffffff" };
+  let saved = "[]";
+  const storage = {
+    getItem: () => saved,
+    setItem: (_, value) => {
+      saved = value;
+    },
+  };
+  const cart = createCartStore(storage);
+  cart.add(200, "M", a);
+  cart.add(200, "M", b);
+  cart.add(200, "M", a);
+  assert.equal(cart.items().length, 2);
+  assert.equal(cart.subtotal(), 45);
+  const restored = createCartStore(storage);
+  assert.equal(restored.items()[0].design.band, a.band);
+  restored.change(200, "M", -1, a);
+  assert.equal(restored.items()[0].qty, 1);
+  restored.remove(200, "M", b);
+  assert.equal(restored.items().length, 1);
+  restored.add(200, "M", { ...a, logo: "<script>" });
+  assert.equal(restored.count(), 1);
+});

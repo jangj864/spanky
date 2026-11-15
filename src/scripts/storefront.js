@@ -1,3 +1,4 @@
+import { designThumbnail } from "./design.js";
 import {
   concepts,
   sizes,
@@ -112,7 +113,7 @@ function cartView() {
         ? cart
             .map((r, i) => {
               const p = getProduct(r.id);
-              return `<div class="cart-row"><img src="${asset(p)}" alt="${p.name}"><div><h3>${p.name}</h3><p>SIZE ${r.size} / ${money(p.price)}</p><div class="quantity"><button data-qty="${i}" data-delta="-1" aria-label="Decrease quantity">−</button><span>${r.qty}</span><button data-qty="${i}" data-delta="1" ${r.qty >= 10 ? "disabled" : ""} aria-label="Increase quantity">+</button></div></div><div>${money(p.price * r.qty)}<br><button class="remove" data-remove="${i}">Remove</button></div></div>`;
+              return `<div class="cart-row"><img src="${r.design ? designThumbnail(r.design) : asset(p)}" alt="${p.name}"><div><h3>${p.name}</h3><p>SIZE ${r.size} / ${money(p.price)}</p>${r.design ? `<p class="custom-cart-spec">${r.design.pattern.toUpperCase()} · SCALE ${r.design.scale}<br>Body ${r.design.body} / Band ${r.design.band}<br>Logo ${r.design.logo} / Pattern ${r.design.accent}</p><div class="custom-cart-palette">${[r.design.body, r.design.band, r.design.logo, r.design.accent].map((color) => `<span style="background:${color}"></span>`).join("")}</div>` : ""}<div class="quantity"><button data-qty="${i}" data-delta="-1" aria-label="Decrease quantity">−</button><span>${r.qty}</span><button data-qty="${i}" data-delta="1" ${r.qty >= 10 ? "disabled" : ""} aria-label="Increase quantity">+</button></div></div><div>${money(p.price * r.qty)}<br><button class="remove" data-remove="${i}">Remove</button></div></div>`;
             })
             .join("") +
           `<div class="total"><span>Subtotal</span><b>${money(subtotal)}</b></div><p class="sample-note">Demo order only. No payment or shipping takes place.</p><button id="checkout" class="button green full">Checkout <span>↗</span></button>`
@@ -208,14 +209,19 @@ document.addEventListener("click", (event) => {
   }
   if (button.dataset.qty !== undefined) {
     const row = cart[Number(button.dataset.qty)];
-    cartStore.change(row.id, row.size, Number(button.dataset.delta));
+    cartStore.change(
+      row.id,
+      row.size,
+      Number(button.dataset.delta),
+      row.design,
+    );
     sync();
     cartView();
     return;
   }
   if (button.dataset.remove !== undefined) {
     const row = cart[Number(button.dataset.remove)];
-    cartStore.remove(row.id, row.size);
+    cartStore.remove(row.id, row.size, row.design);
     sync();
     cartView();
     return;
@@ -286,3 +292,9 @@ if ($("#products")) {
   render();
 }
 if (new URLSearchParams(location.search).get("bag") === "1") cartView();
+
+document.addEventListener("spanky:custom-added", (event) => {
+  cartStore.replace(event.detail);
+  sync();
+  cartView();
+});

@@ -1,6 +1,7 @@
 const navigation = [
   ["index.html#shop", "Shop", "shop"],
   ["index.html#lookbook", "Lookbook", "lookbook"],
+  ["customize.html", "Customize", "customize"],
   ["world.html", "Explore", "world"],
   ["about.html", "About", "about"],
 ];
@@ -28,7 +29,7 @@ export function renderLayout({
 <title>${title}</title><link rel="icon" href="assets/favicon.svg">
 <link rel="preload" href="assets/fonts/cinea-700.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="styles/main.${styleVersion}.css"><script type="module" src="scripts/${scriptVersion}/site.js"></script><script type="module" src="scripts/${scriptVersion}/storefront.js"></script>
-</head>
+${page === "customize" ? `<script type="module" src="scripts/${scriptVersion}/customizer.js"></script>` : ""}</head>
 <body class="${dark ? "world-page" : "store-page"}">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="announce">COLLECTION 01 <span>Seven concepts. All-over expression.</span></div>
