@@ -197,7 +197,7 @@ async function init() {
     }
     logoGeometry.computeVertexNormals();
     const logo = new THREE.Mesh(logoGeometry, logoMaterial);
-    logo.position.y = 0.73;
+    logo.position.y = 0.805;
     garment.add(logo);
     await document.fonts.ready;
     backMaterial = new THREE.MeshStandardMaterial({
@@ -215,7 +215,7 @@ async function init() {
     backGeometry.computeVertexNormals();
     backPrint = new THREE.Mesh(backGeometry, backMaterial);
     backPrint.rotation.y = Math.PI;
-    backPrint.position.y = 0.72;
+    backPrint.position.y = 0.805;
     garment.add(backPrint);
     const resize = () => {
       const w = viewport.clientWidth,

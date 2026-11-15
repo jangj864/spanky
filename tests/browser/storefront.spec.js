@@ -6,13 +6,13 @@ test("Collection search, options, persistent cross-page bag and demo order", asy
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page.locator(".product")).toHaveCount(12);
+  await expect(page.locator(".product")).toHaveCount(11);
   await page.locator("#search").fill("lime");
   await expect(page.locator(".product")).toHaveCount(1);
   await page.locator("#search").fill("no such design");
   await expect(page.locator("#noResults")).toBeVisible();
   await page.locator("#resetFilters").click();
-  await expect(page.locator(".product")).toHaveCount(12);
+  await expect(page.locator(".product")).toHaveCount(11);
   await page.locator('[data-product="7"]').first().click();
   await page.locator('[data-size="L"]').click();
   await page.locator("#add").click();
@@ -135,26 +135,24 @@ test("every product has a matching clickable back view that preserves size selec
   }
 });
 
-test("Special Collection filters all five artist products and supports options and cart", async ({
+test("Special Collection filters all four underground artist products and supports options and cart", async ({
   page,
 }) => {
   await page.goto("/");
   await page
     .getByRole("button", { name: "Special Collection", exact: true })
     .click();
-  await expect(page.locator(".product")).toHaveCount(5);
-  for (const id of [100, 101, 102, 103, 104]) {
+  await expect(page.locator(".product")).toHaveCount(4);
+  for (const id of [300, 301, 302, 303]) {
     await page.locator(`[data-product="${id}"]`).first().click();
     await expect(page.locator("#productDetail")).toContainText(
       "SPECIAL COLLECTION",
     );
     await page.getByRole("button", { name: "Back", exact: true }).click();
-    const slug = ["haring", "basquiat", "kaikaikiki", "kaws", "mondrian"][
-      id - 100
-    ];
+    const slug = ["eno", "chaemin", "stacey-nah", "velfont"][id - 300];
     await expect(page.locator("#detailPhoto")).toHaveAttribute(
       "src",
-      `assets/special-${slug}-back.png`,
+      `assets/underground-${slug}-back.png`,
     );
     await expect(page.locator("#detailPhoto")).toHaveAttribute(
       "alt",
@@ -165,8 +163,8 @@ test("Special Collection filters all five artist products and supports options a
     await page.locator("#add").click();
   }
   await page.locator("[data-open-cart]").click();
-  await expect(page.locator(".cart-row")).toHaveCount(5);
-  await expect(page.locator(".total")).toContainText("$75");
+  await expect(page.locator(".cart-row")).toHaveCount(4);
+  await expect(page.locator(".total")).toContainText("$60");
 });
 
 for (const route of ["world", "campaign"]) {

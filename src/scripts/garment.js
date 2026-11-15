@@ -97,7 +97,7 @@ export function buildGarment(body, band, thread) {
       const top = row === 1 || row === 2;
       pos.push(
         (inner ? 0.924 : 0.944) * Math.sin(a),
-        top ? 0.875 : 0.565,
+        top ? 1.045 : 0.565,
         (inner ? 0.39 : 0.41) * Math.cos(a),
       );
       uv.push(i / n, top ? 1 : 0);
@@ -114,7 +114,7 @@ export function buildGarment(body, band, thread) {
   geometry.setIndex(idx);
   geometry.computeVertexNormals();
   group.add(new THREE.Mesh(geometry, band));
-  for (const y of [0.57, 0.87]) {
+  for (const y of [0.57, 1.04]) {
     const edge = points.map((p) => new THREE.Vector3(p.x, y, p.z));
     group.add(line(edge, band, 0.005));
   }

@@ -68,11 +68,11 @@ test("all products cost USD 15 and format in dollars", () => {
   assert.equal(money(30), "$30");
 });
 
-test("special category has five artist concepts with valid stable IDs and front assets", () => {
+test("special category has four underground artist concepts with valid stable IDs and front assets", () => {
   const special = filterProducts({ collection: "special" });
   assert.deepEqual(
     special.map((p) => p.id),
-    [100, 101, 102, 103, 104],
+    [300, 301, 302, 303],
   );
   assert(
     special.every(
@@ -86,8 +86,8 @@ test("special category has five artist concepts with valid stable IDs and front 
   );
   assert.equal(filterProducts({ collection: "core" }).length, 7);
   assert.equal(
-    filterProducts({ query: "kaws", collection: "special" })[0].id,
-    103,
+    filterProducts({ query: "velfont", collection: "special" })[0].id,
+    303,
   );
 });
 
@@ -138,4 +138,14 @@ test("back messages are bounded, escaped and preserved as distinct designs", asy
   cart.add(200, "M", { ...defaultDesign, message: "one" });
   cart.add(200, "M", { ...defaultDesign, message: "two" });
   assert.equal(cart.items().length, 2);
+});
+
+test("retired artist editions cannot reappear from saved carts", () => {
+  assert.deepEqual(
+    normalizeCart([
+      { id: 100, size: "M", qty: 1 },
+      { id: 104, size: "L", qty: 1 },
+    ]),
+    [],
+  );
 });

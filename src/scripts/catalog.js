@@ -52,45 +52,37 @@ export const concepts = [
 ];
 concepts.push(
   {
-    name: "Keith Haring",
-    motif: "Figures in motion",
+    name: "ENO",
+    motif: "Monochrome intensity",
     description:
-      "Bold outlined figures and primary colors on a warm ivory ground.",
-    color: "#f8ce2e",
-    keywords: "haring keith special collaboration ivory red yellow blue",
+      "Intricate monochrome artwork and ink-like textures across a black ground.",
+    color: "#373739",
+    keywords: "eno underground artist collaboration monochrome black ink",
   },
   {
-    name: "Jean-Michel Basquiat",
-    motif: "Color, crowns and raw marks",
-    description:
-      "Layered marks, crowns and expressive color across an ochre ground.",
-    color: "#e7a62d",
-    keywords: "basquiat jean michel special collaboration crown ochre yellow",
-  },
-  {
-    name: "Kaikai Kiki",
-    motif: "A field of smiling flowers",
-    description:
-      "Multicolored smiling flowers with a deep purple waistband and pink signature.",
-    color: "#e67db5",
+    name: "CHAEMIN",
+    motif: "Faces in flowing lines",
+    description: "Expressive illustrated faces in lavender and deep teal.",
+    color: "#233f49",
     keywords:
-      "kaikai kiki kaikaikiki special collaboration flowers pink rainbow",
+      "chaemin underground artist collaboration lavender teal faces illustration",
   },
   {
-    name: "KAWS",
-    motif: "Soft tones, bold characters",
+    name: "STACEY NAH",
+    motif: "Everyday, reimagined",
     description:
-      "Graphic characters in grey, lavender and pink with a dark signature waistband.",
-    color: "#b69ac7",
-    keywords: "kaws special collaboration grey lavender pink character",
+      "A layered city scene with unexpected miniature figures in cool blue tones.",
+    color: "#465b7b",
+    keywords: "stacey nah underground artist collaboration city photo blue",
   },
   {
-    name: "Piet Mondrian",
-    motif: "Balance in primary colors",
+    name: "VELFONT",
+    motif: "Color in collision",
     description:
-      "Red, blue and yellow planes framed by a bold black grid on ivory.",
-    color: "#e7302a",
-    keywords: "mondrian piet special edition primary grid geometric",
+      "Expressive collage and gestural marks across blue, yellow and orange panels.",
+    color: "#dc842d",
+    keywords:
+      "velfont underground artist collaboration collage blue yellow orange",
   },
 );
 export const sizes = ["S", "M", "L", "XL"];
@@ -104,18 +96,16 @@ export const products = concepts.slice(0, 7).map((concept, index) => ({
   hasBack: true,
 }));
 products.push(
-  ...["haring", "basquiat", "kaikaikiki", "kaws", "mondrian"].map(
-    (slug, index) => ({
-      id: 100 + index,
-      c: 7 + index,
-      name: `SPANKY × ${concepts[7 + index].name}`,
-      price: 15,
-      collection: "special",
-      hasBack: true,
-      backImage: `assets/special-${slug}-back.png`,
-      image: `assets/special-${slug}.png`,
-    }),
-  ),
+  ...["eno", "chaemin", "stacey-nah", "velfont"].map((slug, index) => ({
+    id: 300 + index,
+    c: 7 + index,
+    name: `SPANKY × ${concepts[7 + index].name}`,
+    price: 15,
+    collection: "special",
+    hasBack: true,
+    image: `assets/underground-${slug}-front.png`,
+    backImage: `assets/underground-${slug}-back.png`,
+  })),
 );
 export const getProduct = (id) =>
   Number(id) === 200
