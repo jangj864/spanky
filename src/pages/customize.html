@@ -25,14 +25,122 @@
     <h2>The details<br />are yours.</h2>
     <fieldset>
       <legend>Color palette</legend>
+      <p class="control-help">
+        Click a swatch, enter a hex color, or drag the hue slider.
+      </p>
       <div class="studio-colors">
-        <label>Body<input type="color" name="body" value="#252528" /></label
-        ><label
-          >Waistband<input type="color" name="band" value="#171719" /></label
-        ><label>Logo<input type="color" name="logo" value="#ffffff" /></label
-        ><label
-          >Pattern<input type="color" name="accent" value="#c8b6ff"
-        /></label>
+        <div class="color-card">
+          <label for="color-body">Body fabric</label>
+          <div class="color-card-value">
+            <input
+              id="color-body"
+              type="color"
+              name="body"
+              value="#252528"
+              aria-label="Body fabric color"
+            /><input
+              data-hex="body"
+              value="#252528"
+              aria-label="Body fabric hex color"
+              maxlength="7"
+              pattern="#[0-9a-fA-F]{6}"
+              spellcheck="false"
+            />
+          </div>
+          <input
+            type="range"
+            class="hue-slider"
+            data-hue="body"
+            min="0"
+            max="360"
+            value="260"
+            aria-label="Body fabric hue"
+          />
+        </div>
+        <div class="color-card">
+          <label for="color-band">Waistband</label>
+          <div class="color-card-value">
+            <input
+              id="color-band"
+              type="color"
+              name="band"
+              value="#171719"
+              aria-label="Waistband color"
+            /><input
+              data-hex="band"
+              value="#171719"
+              aria-label="Waistband hex color"
+              maxlength="7"
+              pattern="#[0-9a-fA-F]{6}"
+              spellcheck="false"
+            />
+          </div>
+          <input
+            type="range"
+            class="hue-slider"
+            data-hue="band"
+            min="0"
+            max="360"
+            value="260"
+            aria-label="Waistband hue"
+          />
+        </div>
+        <div class="color-card">
+          <label for="color-logo">Logo & back text</label>
+          <div class="color-card-value">
+            <input
+              id="color-logo"
+              type="color"
+              name="logo"
+              value="#ffffff"
+              aria-label="Logo & back text color"
+            /><input
+              data-hex="logo"
+              value="#FFFFFF"
+              aria-label="Logo & back text hex color"
+              maxlength="7"
+              pattern="#[0-9a-fA-F]{6}"
+              spellcheck="false"
+            />
+          </div>
+          <input
+            type="range"
+            class="hue-slider"
+            data-hue="logo"
+            min="0"
+            max="360"
+            value="260"
+            aria-label="Logo & back text hue"
+          />
+        </div>
+        <div class="color-card">
+          <label for="color-accent">Pattern ink</label>
+          <div class="color-card-value">
+            <input
+              id="color-accent"
+              type="color"
+              name="accent"
+              value="#c8b6ff"
+              aria-label="Pattern ink color"
+            /><input
+              data-hex="accent"
+              value="#C8B6FF"
+              aria-label="Pattern ink hex color"
+              maxlength="7"
+              pattern="#[0-9a-fA-F]{6}"
+              spellcheck="false"
+            />
+          </div>
+          <input
+            type="range"
+            class="hue-slider"
+            data-hue="accent"
+            min="0"
+            max="360"
+            value="260"
+            aria-label="Pattern ink hue"
+          />
+        </div>
       </div>
     </fieldset>
     <fieldset>
@@ -47,14 +155,37 @@
         >
       </div>
       <label class="studio-range"
-        >Pattern scale<input
+        >Pattern size <output id="scaleLabel">Medium</output
+        ><input
           name="scale"
           type="range"
           min="1"
           max="4"
           step="1"
           value="2"
-      /></label>
+        /><span class="scale-endpoints"
+          ><span>Large print</span><span>Fine print</span></span
+        ></label
+      >
+    </fieldset>
+    <fieldset class="back-message-field">
+      <legend>Your back message</legend>
+      <label for="backMessage">Make the waistband say something.</label
+      ><input
+        id="backMessage"
+        name="message"
+        type="text"
+        maxlength="32"
+        placeholder="e.g. still here. still me."
+        autocomplete="off"
+      />
+      <div class="message-meta">
+        <span>Printed on the back · Logo color</span
+        ><output id="messageCount" for="backMessage">0 / 32</output>
+      </div>
+      <button type="button" class="preview-message" data-camera="back">
+        Preview back ↻
+      </button>
     </fieldset>
     <fieldset>
       <legend>Size</legend>

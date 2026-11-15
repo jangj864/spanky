@@ -228,3 +228,31 @@ test("3D customization updates live and retains separate designs across pages", 
     ),
   ).toBe(false);
 });
+
+test("back message and color controls update and persist safely", async ({
+  page,
+}) => {
+  await page.goto("/customize.html");
+  await expect(page.locator("#garmentViewport")).toHaveAttribute(
+    "data-ready",
+    "true",
+    { timeout: 30000 },
+  );
+  await page.locator("#backMessage").fill("still here. still me.");
+  await expect(page.locator("#messageCount")).toHaveText("21 / 32");
+  await expect(page.locator("#garmentViewport")).toHaveAttribute(
+    "data-design",
+    /still here. still me./,
+  );
+  await page.locator('[data-hex="logo"]').fill("#00ff00");
+  await expect(page.locator('[name="logo"]')).toHaveValue("#00ff00");
+  await page.locator("#addCustom").click();
+  await expect(page.locator(".cart-row")).toContainText(
+    "still here. still me.",
+  );
+  await page.goto("/about.html");
+  await page.locator("[data-open-cart]").click();
+  await expect(page.locator(".cart-row")).toContainText(
+    "still here. still me.",
+  );
+});

@@ -6,6 +6,7 @@ import { createCartStore } from "./cart.js";
 const viewport = document.querySelector("#garmentViewport");
 const form = document.querySelector("#customForm");
 let renderer, scene, camera, controls, bodyMaterial, bandMaterial, logoMaterial;
+let backPrint, backMaterial;
 let design = { ...defaultDesign };
 const status = document.querySelector("#renderStatus");
 function texture(canvas) {
@@ -55,7 +56,10 @@ function paintFabric() {
   return texture(canvas);
 }
 function update() {
-  design = normalizeDesign(Object.fromEntries(new FormData(form))) || {
+  design = normalizeDesign({
+    ...Object.fromEntries(new FormData(form)),
+    scale: form.elements.scale.value,
+  }) || {
     ...defaultDesign,
   };
   bodyMaterial.map?.dispose();
@@ -65,6 +69,28 @@ function update() {
   bodyMaterial.userData.thread.color.set(design.body).multiplyScalar(0.7);
   logoMaterial.color.set(design.logo);
   viewport.dataset.design = JSON.stringify(design);
+  updateControls();
+  if (backPrint) {
+    backMaterial.map?.dispose();
+    const canvas = document.createElement("canvas");
+    canvas.width = 2048;
+    canvas.height = 280;
+    const c = canvas.getContext("2d");
+    let size = 190;
+    c.font = `700 ${size}px "TBJ Cinea Sans", Arial, sans-serif`;
+    while (c.measureText(design.message).width > 1950 && size > 40) {
+      size -= 2;
+      c.font = `700 ${size}px "TBJ Cinea Sans", Arial, sans-serif`;
+    }
+    c.fillStyle = "#ffffff";
+    c.textAlign = "center";
+    c.textBaseline = "middle";
+    c.fillText(design.message, 1024, 140);
+    backMaterial.map = texture(canvas);
+    backMaterial.color.set(design.logo);
+    backMaterial.needsUpdate = true;
+    backPrint.visible = Boolean(design.message);
+  }
 }
 async function init() {
   try {
@@ -173,6 +199,24 @@ async function init() {
     const logo = new THREE.Mesh(logoGeometry, logoMaterial);
     logo.position.y = 0.73;
     garment.add(logo);
+    await document.fonts.ready;
+    backMaterial = new THREE.MeshStandardMaterial({
+      transparent: true,
+      roughness: 0.85,
+      side: THREE.FrontSide,
+      depthWrite: false,
+    });
+    const backGeometry = new THREE.PlaneGeometry(1.4, 0.205, 96, 1);
+    const positions = backGeometry.attributes.position;
+    for (let i = 0; i < positions.count; i++) {
+      const x = positions.getX(i);
+      positions.setZ(i, 0.414 * Math.sqrt(1 - (x / 0.946) ** 2));
+    }
+    backGeometry.computeVertexNormals();
+    backPrint = new THREE.Mesh(backGeometry, backMaterial);
+    backPrint.rotation.y = Math.PI;
+    backPrint.position.y = 0.72;
+    garment.add(backPrint);
     const resize = () => {
       const w = viewport.clientWidth,
         h = viewport.clientHeight;
@@ -238,3 +282,53 @@ document.querySelector("#saveCustom").addEventListener("click", () => {
   a.click();
 });
 init();
+
+function updateControls() {
+  for (const key of ["body", "band", "logo", "accent"]) {
+    const hex = form.querySelector(`[data-hex="${key}"]`);
+    if (document.activeElement !== hex) hex.value = design[key].toUpperCase();
+  }
+  for (const key of ["body", "band", "logo", "accent"]) {
+    const slider = form.querySelector(`[data-hue="${key}"]`);
+    const hsl = {};
+    new THREE.Color(design[key]).getHSL(hsl, THREE.SRGBColorSpace);
+    if (document.activeElement !== slider)
+      slider.value = Math.round(hsl.h * 360);
+  }
+  document.querySelector("#messageCount").textContent =
+    `${Array.from(form.elements.message.value).length} / 32`;
+  const scale = form.elements.scale;
+  const names = ["Large", "Medium", "Small", "Fine"];
+  document.querySelector("#scaleLabel").textContent =
+    names[Number(scale.value) - 1];
+  scale.disabled = design.pattern === "solid";
+  scale.closest("label").classList.toggle("is-disabled", scale.disabled);
+}
+form.querySelectorAll("[data-hex]").forEach((input) =>
+  input.addEventListener("input", () => {
+    const valid = /^#[0-9a-f]{6}$/i.test(input.value);
+    input.setCustomValidity(
+      valid ? "" : "Enter a six-digit hex color, e.g. #5946FF",
+    );
+    if (valid) {
+      form.elements[input.dataset.hex].value = input.value;
+      update();
+    }
+  }),
+);
+form.querySelectorAll("[data-hue]").forEach((input) =>
+  input.addEventListener("input", () => {
+    const color = new THREE.Color().setHSL(
+      Number(input.value) / 360,
+      0.78,
+      0.55,
+      THREE.SRGBColorSpace,
+    );
+    form.elements[input.dataset.hue].value =
+      `#${color.getHexString(THREE.SRGBColorSpace)}`;
+    update();
+  }),
+);
+form.elements.message.addEventListener("focus", () =>
+  document.querySelector('[data-camera="back"]').click(),
+);

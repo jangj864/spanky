@@ -5,6 +5,7 @@ export const defaultDesign = {
   accent: "#c8b6ff",
   pattern: "solid",
   scale: 2,
+  message: "",
 };
 export function normalizeDesign(value) {
   if (!value || typeof value !== "object") return null;
@@ -15,7 +16,19 @@ export function normalizeDesign(value) {
   }
   if (!["waves", "grid", "dots", "solid"].includes(value.pattern)) return null;
   if (![1, 2, 3, 4].includes(Number(value.scale))) return null;
-  return { ...design, pattern: value.pattern, scale: Number(value.scale) };
+  return {
+    ...design,
+    pattern: value.pattern,
+    scale: Number(value.scale),
+    message:
+      typeof value.message === "string"
+        ? Array.from(
+            value.message.replace(/[\u0000-\u001f\u007f]/g, " ").trim(),
+          )
+            .slice(0, 32)
+            .join("")
+        : "",
+  };
 }
 export const designKey = (design) => (design ? JSON.stringify(design) : "");
 
@@ -32,3 +45,16 @@ export function designThumbnail(design) {
           : `<path d="M-10 10Q0 0 10 10T30 10T50 10" fill="none" stroke="${accent}" stroke-width="3"/>`;
   return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 180"><defs><pattern id="p" width="${spacing}" height="${spacing}" patternUnits="userSpaceOnUse">${marks}</pattern><clipPath id="c"><path d="M25 25H175L185 155H110L100 120L90 155H15Z"/></clipPath></defs><path d="M25 25H175L185 155H110L100 120L90 155H15Z" fill="${body}"/><rect width="200" height="180" fill="url(#p)" clip-path="url(#c)"/><path d="M25 25H175V55H25Z" fill="${band}"/><text x="100" y="47" text-anchor="middle" fill="${logo}" font-family="Arial" font-size="23" font-weight="bold">spanky</text></svg>`)}`;
 }
+
+export const escapeHtml = (value) =>
+  String(value).replace(
+    /[&<>"\']/g,
+    (char) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "\'": "&#39;",
+      })[char],
+  );

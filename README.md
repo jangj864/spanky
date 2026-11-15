@@ -68,3 +68,5 @@ Special Collection assets are the five user-supplied front and back mockup pairs
 `customize.html` renders an illustrative parametric boxer brief using Three.js 0.180.0 (vendored in `public/assets/vendor`, with license). `customizer.js` owns the 3D scene, canvas patterns, OrbitControls and PNG export; `design.js` validates the color/pattern configuration and generates bag thumbnails. Custom rows use reserved product ID 200 and are keyed by size plus configuration, so different designs remain distinct across pages and reloads. Checkout remains a demo.
 
 Use `TEST_PORT=4188 npm run test:e2e` when the default preview port is occupied.
+
+Custom waistband back messages are limited to 32 characters, rendered as a live canvas texture, and stored with the design. Bag text is HTML escaped. Swatch/HEX/hue controls share the same normalized colors; the pattern scale control is inactive for solid fabric.

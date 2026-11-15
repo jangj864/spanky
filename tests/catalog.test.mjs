@@ -117,3 +117,25 @@ test("custom designs stay distinct, persist and reject malformed configuration",
   restored.add(200, "M", { ...a, logo: "<script>" });
   assert.equal(restored.count(), 1);
 });
+
+test("back messages are bounded, escaped and preserved as distinct designs", async () => {
+  const { defaultDesign, normalizeDesign, escapeHtml } =
+    await import("../src/scripts/design.js");
+  assert.equal(
+    normalizeDesign({ ...defaultDesign, message: "hello\nworld" }).message,
+    "hello world",
+  );
+  assert.equal(
+    normalizeDesign({ ...defaultDesign, message: "x".repeat(40) }).message
+      .length,
+    32,
+  );
+  assert.equal(
+    escapeHtml('<img onerror="x">'),
+    "&lt;img onerror=&quot;x&quot;&gt;",
+  );
+  const cart = createCartStore();
+  cart.add(200, "M", { ...defaultDesign, message: "one" });
+  cart.add(200, "M", { ...defaultDesign, message: "two" });
+  assert.equal(cart.items().length, 2);
+});
