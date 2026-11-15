@@ -2963,3 +2963,23 @@ dialog .close {
   min-height: 12px;
   max-height: 12px;
 }
+.hero h1.brand-slogan {
+  font-size: clamp(60px, 7.8vw, 120px);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+.about-hero h1.brand-slogan,
+.space-intro h1.brand-slogan {
+  font-size: clamp(76px, 12vw, 180px);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+}
+@media (max-width: 800px) {
+  .hero h1.brand-slogan {
+    font-size: clamp(64px, 16vw, 110px);
+  }
+  .about-hero h1.brand-slogan,
+  .space-intro h1.brand-slogan {
+    font-size: clamp(70px, 18vw, 130px);
+  }
+}

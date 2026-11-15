@@ -276,3 +276,20 @@ test("About concept images retain original proportions at desktop and mobile siz
     }
   }
 });
+
+test("AS YOU FEEL leads the slogan pages without mobile overflow", async ({
+  page,
+}) => {
+  for (const route of ["index", "about", "world", "campaign"]) {
+    await page.goto(`/${route}.html`);
+    await expect(page.locator("h1.brand-slogan")).toContainText("AS YOU");
+    await expect(page.locator("h1.brand-slogan")).toContainText("FEEL");
+    await expect(page.locator(".footer-lead")).toContainText("AS YOU FEEL");
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > innerWidth,
+      ),
+    ).toBe(false);
+  }
+});
