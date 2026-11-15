@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+// External font CDN availability must not block local interaction tests.
+test.beforeEach(async ({ page }) => {
+  await page.route("https://cdn.jsdelivr.net/**", (route) => route.abort());
+});
+
 test("Collection search, options, persistent cross-page bag and demo order", async ({
   page,
 }) => {
@@ -253,4 +258,21 @@ test("back message and color controls update and persist safely", async ({
   await expect(page.locator(".cart-row")).toContainText(
     "still here. still me.",
   );
+});
+
+test("About concept images retain original proportions at desktop and mobile sizes", async ({
+  page,
+}) => {
+  await page.goto("/about.html");
+  for (const width of [1440, 1024, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const images = page.locator(".concept-item img");
+    await expect(images).toHaveCount(7);
+    for (const image of await images.all()) {
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate((i) => i.decode());
+      const box = await image.boundingBox();
+      expect(Math.abs(box.width / box.height - 1.5)).toBeLessThan(0.02);
+    }
+  }
 });

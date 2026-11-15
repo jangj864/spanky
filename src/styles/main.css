@@ -1560,7 +1560,11 @@ p {
   padding: 20px;
 }
 .concept-item img {
+  display: block;
   width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
 }
 .concept-item h3 {
   font-size: 18px;
