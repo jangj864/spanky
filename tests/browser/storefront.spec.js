@@ -293,3 +293,31 @@ test("As You Feel leads the slogan pages without mobile overflow", async ({
     ).toBe(false);
   }
 });
+
+test("detail artwork stays inside a square frame for portrait and landscape images", async ({
+  page,
+}) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/index.html");
+    for (const id of [3, 300, 301, 302, 303]) {
+      await page.locator(`[data-product="${id}"]`).first().click();
+      for (const view of ["Front", "Back"]) {
+        await page.getByRole("button", { name: view, exact: true }).click();
+        await page.locator("#detailPhoto").evaluate((i) => i.decode());
+        const frame = await page.locator(".gallery-main").boundingBox();
+        const image = await page.locator("#detailPhoto").boundingBox();
+        expect(Math.abs(frame.width - frame.height)).toBeLessThan(1);
+        expect(image.x).toBeGreaterThanOrEqual(frame.x - 1);
+        expect(image.y).toBeGreaterThanOrEqual(frame.y - 1);
+        expect(image.x + image.width).toBeLessThanOrEqual(
+          frame.x + frame.width + 1,
+        );
+        expect(image.y + image.height).toBeLessThanOrEqual(
+          frame.y + frame.height + 1,
+        );
+      }
+      await page.keyboard.press("Escape");
+    }
+  }
+});

@@ -2383,23 +2383,31 @@ dialog .close {
   min-width: 0;
 }
 .gallery-main.detail-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  display: block;
   border: 0;
   padding: 0;
   width: 100%;
-  aspect-ratio: 3/2;
+  aspect-ratio: 1 / 1;
   min-height: 0;
+  max-height: none;
+  overflow: hidden;
   cursor: pointer;
   background: #e9e7df;
 }
 .gallery-main.detail-image img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  padding: 6%;
   max-height: none;
   object-fit: contain;
+}
+.product-gallery .gallery-controls {
+  justify-content: flex-start;
+  padding: 0;
 }
 .gallery-controls {
   display: flex;
@@ -2444,7 +2452,7 @@ dialog .close {
   }
   .gallery-main.detail-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
     max-height: none;
   }
   .gallery-controls {
