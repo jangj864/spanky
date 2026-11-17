@@ -109,12 +109,12 @@ test("every product has a matching clickable back view that preserves size selec
     await page.locator(`[data-product="${id}"]`).first().click();
     await expect(page.locator("#detailPhoto")).toHaveAttribute(
       "src",
-      `assets/product-${(id - 3) / 4}-3.webp`,
+      `assets/refresh-20261117/product-${(id - 3) / 4}-3.png`,
     );
     await page.getByRole("button", { name: "Back", exact: true }).click();
     await expect(page.locator("#detailPhoto")).toHaveAttribute(
       "src",
-      `assets/product-${(id - 3) / 4}-back.png`,
+      `assets/refresh-20261117/product-${(id - 3) / 4}-back.png`,
     );
     await expect(
       page.getByRole("button", { name: "Back", exact: true }),
@@ -157,7 +157,7 @@ test("Special Collection filters all four underground artist products and suppor
     const slug = ["eno", "chaemin", "stacey-nah", "velfont"][id - 300];
     await expect(page.locator("#detailPhoto")).toHaveAttribute(
       "src",
-      `assets/underground-${slug}-back.png`,
+      `assets/refresh-20261117/underground-${slug}-back.png`,
     );
     await expect(page.locator("#detailPhoto")).toHaveAttribute(
       "alt",
@@ -183,7 +183,7 @@ for (const route of ["world", "campaign"]) {
       .click();
     await expect(gallery.locator("[data-slide]:visible")).toHaveAttribute(
       "src",
-      "assets/night-community.png",
+      "assets/refresh-20261117/party-new-york.png",
     );
     await gallery.locator("[data-slide]:visible").evaluate((i) => i.decode());
     await expect(gallery.locator('[data-indicator="1"]')).toHaveAttribute(
@@ -192,7 +192,23 @@ for (const route of ["world", "campaign"]) {
     );
     await gallery.focus();
     await page.keyboard.press("ArrowLeft");
-    await expect(gallery.locator("[data-slide-count]")).toHaveText("01 / 02");
+    await expect(gallery.locator("[data-slide-count]")).toHaveText("01 / 04");
+    await gallery
+      .getByRole("button", { name: "Show image 4", exact: true })
+      .click();
+    await expect(gallery.locator("[data-slide]:visible")).toHaveAttribute(
+      "src",
+      "assets/refresh-20261117/party-community.png",
+    );
+    await gallery.locator("[data-slide]:visible").evaluate((i) => i.decode());
+    await gallery
+      .getByRole("button", { name: "Show image 3", exact: true })
+      .click();
+    await expect(gallery.locator("[data-slide]:visible")).toHaveAttribute(
+      "src",
+      "assets/refresh-20261117/dj-underground.png",
+    );
+    await gallery.locator("[data-slide]:visible").evaluate((i) => i.decode());
   });
 }
 

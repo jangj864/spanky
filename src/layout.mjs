@@ -25,7 +25,7 @@ export function renderLayout({
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#24104f"><meta name="description" content="${description}">
-<meta property="og:title" content="${title}"><meta property="og:description" content="${description}"><meta property="og:type" content="website"><meta property="og:image" content="https://jangj864.github.io/spanky/assets/campaign-sagging-wide.png">
+<meta property="og:title" content="${title}"><meta property="og:description" content="${description}"><meta property="og:type" content="website"><meta property="og:image" content="https://jangj864.github.io/spanky/assets/refresh-20261117/campaign-model.png">
 <title>${title}</title><link rel="icon" href="assets/favicon.svg">
 <link rel="preload" href="assets/fonts/cinea-700.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="styles/main.${styleVersion}.css"><script type="module" src="scripts/${scriptVersion}/site.js"></script><script type="module" src="scripts/${scriptVersion}/storefront.js"></script>

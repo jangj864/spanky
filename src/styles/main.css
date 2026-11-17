@@ -3017,3 +3017,9 @@ dialog .close {
   z-index: 1;
   pointer-events: none;
 }
+.experience-gallery .gallery-dots {
+  gap: 0;
+}
+.experience-gallery .gallery-navigation {
+  gap: 4px;
+}

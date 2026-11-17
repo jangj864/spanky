@@ -103,8 +103,8 @@ products.push(
     price: 15,
     collection: "special",
     hasBack: true,
-    image: `assets/underground-${slug}-front.png`,
-    backImage: `assets/underground-${slug}-back.png`,
+    image: `assets/refresh-20261117/underground-${slug}-front.png`,
+    backImage: `assets/refresh-20261117/underground-${slug}-back.png`,
   })),
 );
 export const getProduct = (id) =>
@@ -113,7 +113,7 @@ export const getProduct = (id) =>
         id: 200,
         name: "Your SPANKY design",
         price: 15,
-        image: "assets/product-1-3.webp",
+        image: "assets/refresh-20261117/product-1-3.png",
       }
     : products.find((product) => product.id === Number(id));
 export const asset = (product, view = "front") =>
@@ -122,8 +122,8 @@ export const asset = (product, view = "front") =>
     : product.image
       ? product.image
       : view === "back"
-        ? `assets/product-${product.c}-back.png`
-        : `assets/product-${product.c}-3.webp`;
+        ? `assets/refresh-20261117/product-${product.c}-back.png`
+        : `assets/refresh-20261117/product-${product.c}-3.png`;
 export const money = (value) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
