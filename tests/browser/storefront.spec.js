@@ -321,3 +321,27 @@ test("detail artwork stays inside a square frame for portrait and landscape imag
     }
   }
 });
+
+test("core and collaboration cards use matching product display heights", async ({
+  page,
+}) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/index.html");
+    const measurements = [];
+    for (const id of [3, 27, 300, 301, 302, 303]) {
+      const button = page.locator(
+        `.product-image-button[data-product="${id}"]`,
+      );
+      await button.scrollIntoViewIfNeeded();
+      const image = button.locator("img");
+      await image.evaluate((i) => i.decode());
+      const frame = await button.boundingBox(),
+        box = await image.boundingBox();
+      measurements.push(box.height / frame.height);
+    }
+    expect(Math.max(...measurements) - Math.min(...measurements)).toBeLessThan(
+      0.005,
+    );
+  }
+});

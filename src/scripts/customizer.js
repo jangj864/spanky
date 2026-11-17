@@ -171,11 +171,11 @@ async function init() {
     scene.add(shadow);
     // Use the exact supplied vector wordmark as a transparent curved print.
     const logoImage = new Image();
-    logoImage.src = "assets/logo.svg";
+    logoImage.src = "assets/logo.svg?v=20261117";
     await logoImage.decode();
     const canvas = document.createElement("canvas");
-    canvas.width = 1965;
-    canvas.height = 536;
+    canvas.width = 1925;
+    canvas.height = 546;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(logoImage, 0, 0, canvas.width, canvas.height);
     const logoMap = texture(canvas);
@@ -188,7 +188,7 @@ async function init() {
     logoMap.needsUpdate = true;
     // Preserve the SVG's projected aspect ratio, including the garment group scale.
     const logoWidth = 0.78;
-    const logoHeight = ((logoWidth * 1.12) / 0.92) * (536 / 1965);
+    const logoHeight = ((logoWidth * 1.12) / 0.92) * (546.4 / 1925.03);
     const logoGeometry = new THREE.PlaneGeometry(logoWidth, logoHeight, 64, 1);
     const logoPositions = logoGeometry.attributes.position;
     for (let i = 0; i < logoPositions.count; i++) {

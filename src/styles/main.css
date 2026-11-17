@@ -2991,3 +2991,29 @@ dialog .close {
     font-size: clamp(70px, 18vw, 130px);
   }
 }
+/* Match product height across source canvases with different transparent margins. */
+.product-visual .product-image-button {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+.product-visual .product-image-button img {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: auto;
+  height: 78%;
+  max-width: none;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+}
+.product:hover .product-image-button img {
+  transform: translate(-50%, -50%) scale(1.03);
+}
+.product-visual .tag {
+  z-index: 1;
+  pointer-events: none;
+}

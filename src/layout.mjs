@@ -34,7 +34,7 @@ ${page === "customize" ? `<script type="module" src="scripts/${scriptVersion}/cu
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="announce">COLLECTION 01 <span>Seven concepts. All-over expression.</span></div>
 <header class="site-header">
-<a href="index.html" class="logo" aria-label="SPANKY home"><img src="assets/logo.svg" width="158" height="43" alt="spanky"></a>
+<a href="index.html" class="logo" aria-label="SPANKY home"><img src="assets/logo.svg?v=20261117" width="158" height="43" alt="spanky"></a>
 <nav id="site-nav" aria-label="Main navigation">${links}</nav>
 <div class="header-actions"><button id="bag" class="bag" data-open-cart aria-label="Open shopping bag">Bag <span data-cart-count>0</span> ↗</button><button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu <span>+</span></button></div>
 </header>
