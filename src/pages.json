@@ -28,5 +28,25 @@
     "title": "SPANKY Studio \u2014 Make it yours",
     "description": "Build your own SPANKY boxer brief. Customize colors and patterns in live 3D.",
     "dark": false
+  },
+  "artist-eno": {
+    "title": "ENO \u2014 Finding a shape for the noise. | SPANKY Journal",
+    "description": "An artist perspective on the ENO artwork, emotional expression and solidarity.",
+    "dark": false
+  },
+  "artist-chaemin": {
+    "title": "CHAEMIN \u2014 More than the face you show. | SPANKY Journal",
+    "description": "An artist perspective on the CHAEMIN artwork, emotional expression and solidarity.",
+    "dark": false
+  },
+  "artist-stacey-nah": {
+    "title": "STACEY NAH \u2014 A small shift in the everyday. | SPANKY Journal",
+    "description": "An artist perspective on the STACEY NAH artwork, emotional expression and solidarity.",
+    "dark": false
+  },
+  "artist-velfont": {
+    "title": "VELFONT \u2014 Making room for every layer. | SPANKY Journal",
+    "description": "An artist perspective on the VELFONT artwork, emotional expression and solidarity.",
+    "dark": false
   }
 }

@@ -1,3 +1,8 @@
+import {
+  artistStories,
+  storyCards,
+  renderArtistStory,
+} from "../src/editorial.mjs";
 import { createHash } from "node:crypto";
 import { readFile, writeFile, mkdir, cp, rm, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -28,13 +33,16 @@ const conceptCards = products
   .filter((product) => product.collection === "core")
   .map((product) => {
     const concept = concepts[product.c];
-    return `<article class="concept-item"><img src="${asset(product)}" alt="${product.name}" width="1536" height="1024" loading="lazy"><h3>${concept.name}</h3><p>${concept.motif}</p><button class="text-link" data-product="${product.id}">Explore design ↗</button></article>`;
+    return `<article class="concept-item"><img src="${asset(product)}" alt="${product.name}" width="1536" height="1024" loading="lazy"><h3>${product.name}</h3><p>${concept.motif}</p><button class="text-link" data-product="${product.id}">Explore design ↗</button></article>`;
   })
   .join("");
 for (const [page, meta] of Object.entries(pages)) {
-  const content = (
-    await readFile(`${root}src/pages/${page}.html`, "utf8")
-  ).replace("{{conceptCards}}", conceptCards);
+  const story = artistStories.find((story) => page === `artist-${story.slug}`);
+  const content = story
+    ? renderArtistStory(story)
+    : (await readFile(`${root}src/pages/${page}.html`, "utf8"))
+        .replace("{{conceptCards}}", conceptCards)
+        .replace("{{artistStories}}", storyCards());
   await writeFile(
     `${root}dist/${page}.html`,
     renderLayout({ page, ...meta, content, scriptVersion, styleVersion }),

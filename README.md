@@ -70,3 +70,7 @@ Special Collection assets are the four user-supplied front and back mockup pairs
 Use `TEST_PORT=4188 npm run test:e2e` when the default preview port is occupied.
 
 Custom waistband back messages are limited to 32 characters, rendered as a live canvas texture, and stored with the design. Bag text is HTML escaped. Swatch/HEX/hue controls share the same normalized colors; the pattern scale control is inactive for solid fabric.
+
+## Product language and artist journal
+
+The seven core products use their back-waistband slogans as public names; IDs, sizing, prices and saved cart rows remain stable. `src/editorial.mjs` stores the four artist concept stories and their shared listing/article renderers. The build emits `artist-eno.html`, `artist-chaemin.html`, `artist-stacey-nah.html` and `artist-velfont.html`, with listings on the homepage and Explore. Artist-voice Q&A copy was commissioned through the project owner. It addresses visible design choices and opinions on solidarity; it does not assert diagnoses, medical histories, personal health events, donations or external advocacy activities.

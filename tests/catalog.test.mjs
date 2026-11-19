@@ -23,7 +23,7 @@ test("only seven collection designs remain with stable IDs", () => {
   assert.equal(getProduct(0), undefined);
 });
 test("search matches concept, motif and color without mutating catalog", () => {
-  assert.equal(filterProducts({ query: "bipolar" })[0].id, 7);
+  assert.equal(filterProducts({ query: "every mood" })[0].id, 7);
   assert.equal(filterProducts({ query: "lime" })[0].id, 11);
   assert.equal(filterProducts({ query: "not a pattern" }).length, 0);
   filterProducts({ sort: "name" });
@@ -147,5 +147,20 @@ test("retired artist editions cannot reappear from saved carts", () => {
       { id: 104, size: "L", qty: 1 },
     ]),
     [],
+  );
+});
+
+test("core product names match their back waistband slogans", () => {
+  assert.deepEqual(
+    products.filter((p) => p.collection === "core").map((p) => p.name),
+    [
+      "Still here. Still me.",
+      "Every mood. Same worth.",
+      "My mind. My rhythm.",
+      "More than my anger.",
+      "More than the loop.",
+      "See me. Not the label.",
+      "A person. Not a stereotype.",
+    ],
   );
 });

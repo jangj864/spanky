@@ -24,7 +24,9 @@ test("Collection search, options, persistent cross-page bag and demo order", asy
   await page.goto("/about.html");
   await expect(page.locator("[data-cart-count]")).toHaveText("1");
   await page.locator("[data-open-cart]").click();
-  await expect(page.locator(".cart-row")).toContainText("Bipolar");
+  await expect(page.locator(".cart-row")).toContainText(
+    "Every mood. Same worth.",
+  );
   await page.getByRole("button", { name: "Increase quantity" }).click();
   await expect(page.locator(".total")).toContainText("$30");
   await expect(page.locator("#cartContent")).not.toContainText(/type\s+d/i);
@@ -98,7 +100,9 @@ test("obsolete A–C products and malformed saved rows cannot enter the bag", as
   await expect(page.locator("[data-cart-count]")).toHaveText("2");
   await page.locator("[data-open-cart]").click();
   await expect(page.locator(".cart-row")).toHaveCount(1);
-  await expect(page.locator(".cart-row")).toContainText("Bipolar");
+  await expect(page.locator(".cart-row")).toContainText(
+    "Every mood. Same worth.",
+  );
 });
 
 test("every product has a matching clickable back view that preserves size selection", async ({
@@ -360,4 +364,60 @@ test("core and collaboration cards use matching product display heights", async 
       0.005,
     );
   }
+});
+
+test("slogan names replace diagnostic product labels across shop, details, About and bag", async ({
+  page,
+}) => {
+  await page.goto("/index.html");
+  await expect(page.locator(".products")).not.toContainText(
+    /depression|bipolar|ADHD|OCD|schizophrenia|delusional disorder/i,
+  );
+  await page.locator('[data-product="3"]').first().click();
+  await expect(page.locator("#productDetail h2")).toHaveText(
+    "Still here. Still me.",
+  );
+  await page.locator("#add").click();
+  await page.goto("/about.html");
+  await expect(page.locator(".concept-items")).toContainText(
+    "Still here. Still me.",
+  );
+  await page.locator("[data-open-cart]").click();
+  await expect(page.locator(".cart-row")).toContainText(
+    "Still here. Still me.",
+  );
+});
+
+test("four artist stories open from main and Explore and link to their collaboration", async ({
+  page,
+}) => {
+  await page.goto("/index.html");
+  await expect(page.locator(".journal-card")).toHaveCount(4);
+  await page.locator(".journal-card").first().click();
+  await expect(page.locator("h1")).toHaveText("Finding a shape for the noise.");
+  for (const [slug, name] of [
+    ["eno", "ENO"],
+    ["chaemin", "CHAEMIN"],
+    ["stacey-nah", "STACEY NAH"],
+    ["velfont", "VELFONT"],
+  ]) {
+    await page.goto(`/artist-${slug}.html`);
+    await expect(page.locator(".article-byline")).toContainText(name);
+    await expect(page.locator(".artist-answer")).toHaveCount(3);
+    await page
+      .getByRole("button", { name: "Explore the design", exact: false })
+      .click();
+    await expect(page.locator("#productDetail h2")).toHaveText(
+      `SPANKY × ${name}`,
+    );
+    await page.keyboard.press("Escape");
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > innerWidth,
+      ),
+    ).toBe(false);
+  }
+  await page.goto("/world.html");
+  await expect(page.locator("#artist-stories .journal-card")).toHaveCount(4);
 });
